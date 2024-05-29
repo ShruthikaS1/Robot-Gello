@@ -1,0 +1,29 @@
+<mujoco model="simple_spoon">
+    <!-- Other elements and attributes -->
+
+    <compiler angle="radian" meshdir="assets" autolimits="true" convexhull="true"/>
+
+    <option impratio="10" o_margin="2.0"/>
+
+    <asset>
+        <mesh file="simple_spoon.stl" scale="0.0012 0.0012 0.0012"/>
+    </asset>
+
+    <worldbody>
+
+        <body name="end_effector" pos="0 0 0.16" euler="1.57 1.57 0">
+            <!-- Visual Geometry -->
+            <geom type="mesh" mesh="simple_spoon" rgba="0.1 0.3 0.3 1"/>
+
+            <!-- Collision Geometry -->
+            <!-- <geom type="cylinder" size="0.1 0.1" conaffinity="0" contype="1" rgba="0 0 0 0"/> -->
+            <geom type="cylinder" size="0.03 0.08" pos="0 -0.08 0" euler="1.57 0 0" conaffinity="0" contype="1"  rgba="0 0 0 0"/>
+
+            <!-- Adjust mass and inertia properties -->
+            <inertial mass="0.05" pos="0 0 0.16" euler="1.57 1.57 0" diaginertia="0.01 0.01 0.01"/>
+
+
+        </body>
+
+    </worldbody>
+</mujoco>
