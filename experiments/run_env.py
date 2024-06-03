@@ -271,10 +271,10 @@ def main(args):
 
         #     obs = np.append(obs, [x, y, z, roll, pitch, yaw, w, xq, yq, zq])
 
-            # print(obs)
-            # if time.time() - start_time > 0.1:
-            #     writer.writerow(obs)
-            #     start_time = time.time()
+        #     print(obs)
+        #     if time.time() - start_time > 0.1:
+        #         writer.writerow(obs)
+        #         start_time = time.time()
 
 
 if __name__ == "__main__":

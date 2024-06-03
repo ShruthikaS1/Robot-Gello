@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple
 import csv
+from forward_kinematics import ForwardKinematicsUR5e
 
 import numpy as np
 import tyro
@@ -28,13 +29,13 @@ def print_color(*args, color=None, attrs=(), **kwargs):
 @dataclass
 class Args:
     agent: str = "none"
-    # robot_port: int = 6001 #for_mujoco
-    robot_port: int = 50003  # for trajectory
+    robot_port: int = 6001 #for_mujoco
+    # robot_port: int = 50003  # for trajectory
     wrist_camera_port: int = 5000
     base_camera_port: int = 5001
-    # hostname: str = "127.0.0.1" #for_mujoco
-    hostname: str = "192.168.77.243"
-    robot_ip: str = "192.168.77.21" 
+    hostname: str = "127.0.0.1" #for_mujoco
+    # hostname: str = "192.168.77.243"
+    # robot_ip: str = "192.168.77.21" 
     robot_type: str = None  # only needed for quest agent or spacemouse agent
     hz: int = 100
     start_joints: Optional[Tuple[float, ...]] = None
@@ -243,10 +244,11 @@ def main(args):
 
     save_path = None
     start_time = time.time()
+    start_time_print = time.time()
     while True:
             gello_angle = agent.act(obs)
         # if (-1.04719755 > gello_angle[0] > -2.35619449) and (-1.22173048 > gello_angle[1] > -2.26892803) and  (-1.22173048 > gello_angle[2] > -2.0943951) and (0 > gello_angle[3] > -3.14) and (3.14 > gello_angle[4] > 0) :
-            num = time.time() - start_time
+            num = time.time() - start_time_print
             message = f"\rTime passed: {round(num, 2)}          "
             print_color(
                 message,
@@ -278,15 +280,30 @@ def main(args):
                 else:
                     raise ValueError(f"Invalid state {state}")
             obs = env.step(action)
-            # print("Current: ", env.get_obs()["joint_positions"])
+            print("Current: ", env.get_obs()["joint_positions"])
             # Specify the file path
-            csv_file_path = 'csv/output.csv'# Writing to CSV file
+            csv_file_path = 'csv/output100.csv'# Writing to CSV file
             with open(csv_file_path, mode='a', newline='') as file:
                 writer = csv.writer(file)
                 if file.tell() == 0:
-                    writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle'])  # Write the header    writer.writerows(data)
+                    writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_roll', 'end_eff_pitch', 'end_eff_yaw', 'end_eff_w', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq'])  # Write the header    writer.writerows(data)
                 obs = env.get_obs()["joint_positions"]
+
+                fk = ForwardKinematicsUR5e()
+
+                T = fk.get_transformation_matrix(θdeg1=obs[0], θdeg2=obs[1], θdeg3=obs[2], θdeg4=obs[3], θdeg5=obs[4], θdeg6=obs[5])
+
+                roll, pitch, yaw, x, y, z = fk.transform_to_rpy_and_xyz(T)
+                
+                w, xq, yq, zq = fk.convert_to_quaternions(roll, pitch, yaw)
+
+                obs = np.append(obs, [x, y, z, roll, pitch, yaw, w, xq, yq, zq])
+
+                # print(obs)
+                # print("Time", time.time() - start_time)
+                # if time.time() - start_time > 0.005:
                 writer.writerow(obs)
+                # start_time = time.time()
 
 if __name__ == "__main__":
     main(tyro.cli(Args))

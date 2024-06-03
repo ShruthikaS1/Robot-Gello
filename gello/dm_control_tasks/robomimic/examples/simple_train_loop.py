@@ -6,6 +6,7 @@ Example script for demonstrating how the SequenceDataset class and a training lo
 can interact. This is meant to help others who would like to use our provided
 datasets and dataset class in other applications.
 """
+import os
 import numpy as np
 
 import torch
@@ -117,8 +118,40 @@ def print_batch_info(batch):
             print("key {} with shape {}".format(k, batch[k].shape))
     print("")
 
+def save_model(model, info, path):
+    """
+    Save the model state to a file.
 
-def run_train_loop(model, data_loader):
+    Args:
+        path (str): file path to save the model state.
+    """
+    
+    torch.save({
+        'model_state_dict': model.serialize(),
+        # 'optimizer_state_dict': model.log_info(info),
+    }, path)
+
+def load_model(self, path):
+    """
+    Load the model state from a file.
+
+    Args:
+        path (str): file path to load the model state.
+    """
+    checkpoint = torch.load(path)
+    self.nets.load_state_dict(checkpoint['model_state_dict'])
+    self.optimizers["policy"].load_state_dict(checkpoint['optimizer_state_dict'])
+    self.algo_config = checkpoint['algo_config']
+    self.obs_config = checkpoint['obs_config']
+    self.global_config = checkpoint['global_config']
+    self.obs_key_shapes = checkpoint['obs_key_shapes']
+    self.ac_dim = checkpoint['ac_dim']
+    self.device = checkpoint['device']
+
+    # Ensure the model is on the correct device
+    self.nets = self.nets.float().to(self.device)
+
+def run_train_loop(model, data_loader, save_interval=5, save_path="/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/gello/dm_control_tasks/robomimic/examples/models"):
     """
     Note: this is a stripped down version of @TrainUtils.run_epoch and the train loop
     in the train function in train.py. Logging and evaluation rollouts were removed.
@@ -128,8 +161,8 @@ def run_train_loop(model, data_loader):
         data_loader (torch.utils.data.DataLoader instance): torch DataLoader for
             sampling batches
     """
-    num_epochs = 50
-    gradient_steps_per_epoch = 100
+    num_epochs = 1000
+    gradient_steps_per_epoch = 10
     has_printed_batch_info = False
 
     # ensure model is in train mode
@@ -173,12 +206,17 @@ def run_train_loop(model, data_loader):
 
         print("Train Epoch {}: Loss {}".format(epoch, np.mean(losses)))
 
+        if epoch % save_interval == 0:
+            print(f"Saving model at epoch {epoch}")
+            save_model(model, info, os.path.join(save_path, f"model_checkpoint_epoch.pth"))
+
+
 
 if __name__ == "__main__":
 
     # small dataset with a handful of trajectories
     # dataset_path = TestUtils.example_dataset_path()
-    dataset_path = "/home/sj/Downloads/data.hdf5"
+    dataset_path = "/home/sj/Downloads/the_data.hdf5"
     # set torch device
     device = TorchUtils.get_torch_device(try_to_use_cuda=True)
 
@@ -188,5 +226,4 @@ if __name__ == "__main__":
     # get dataset loader
     data_loader = get_data_loader(dataset_path=dataset_path)
 
-    # run train loop
-    run_train_loop(model=model, data_loader=data_loader)
+    run_train_loop(model=model, data_loader=data_loader, save_interval=10, save_path="/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/gello/dm_control_tasks/robomimic/examples/models")

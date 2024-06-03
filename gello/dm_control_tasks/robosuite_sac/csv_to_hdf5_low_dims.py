@@ -9,7 +9,7 @@ import os
 
 # Create sample data
 # csv_folder = "/home/sj/Downloads/csv"
-csv_folder = "/home/zahir/D/gcodes/RLHF-gello_software/csv"
+csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv"
 
 low_dim_data = []
 next_low_dim_data = []
@@ -58,14 +58,15 @@ print("Low dim data shape:", low_dim_data[0].shape)
 # Define the data
 total_samples = len(low_dim_data)
 env_args = {
-    "env_name": "Lift",
+    "env_name": "LAVA",
+    "env_version": "1.4.1",
     "type": 1,
     "env_kwargs": {
         "has_renderer": False,
-        "has_offscreen_renderer": True,
+        "has_offscreen_renderer": False,
         "ignore_done": True,
         "use_object_obs": True,
-        "use_camera_obs": True,
+        "use_camera_obs": False,
         "control_freq": 20,
         "controller_configs": {
             "type": "OSC_POSE",
@@ -85,7 +86,7 @@ env_args = {
             "interpolation": None,
             "ramp_ratio": 0.2,
         },
-        "robots": ["UR5e"],
+        "robots": ["UR5e_Lava"],
         "camera_depths": True,
         "camera_heights": 84,
         "camera_widths": 84,
@@ -93,11 +94,10 @@ env_args = {
         "reward_shaping": False,
         "camera_names": ["agentview", "robot0_eye_in_hand"]
     },
-    "env_version": "1.4.1",
 }
 
 # Define HDF5 file path
-file_path = "/home/zahir/Downloads/the_data.hdf5"
+file_path = "/home/sj/Downloads/the_data.hdf5"
 
 # if not os.path.exists(file_path):
 #     os.makedirs(file_path)
@@ -144,8 +144,7 @@ with h5py.File(file_path, "w") as f:
             low, high = column_ranges[col]
             if low > high:  # Ensure the correct range order
                 low, high = high, low
-            object[:, col] = np.random.uniform(low=low, high=high, size=num_rows
-                                               )
+            object[:, col] = np.random.uniform(low=low, high=high, size=num_rows)
 
         rewards_data = [0]*(len(low_dim_data[i])-3) + [1]*3
         globals()[f'states_demo_{i}'] = np.array(states_data[i])

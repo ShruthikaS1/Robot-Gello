@@ -63,6 +63,7 @@ def split_train_val_from_hdf5(hdf5_path, val_ratio=0.1, filter_key=None):
     name_1 = "train"
     name_2 = "valid"
     if filter_key is not None:
+        print("using filter key: {}".format(filter_key))
         name_1 = "{}_{}".format(filter_key, name_1)
         name_2 = "{}_{}".format(filter_key, name_2)
 

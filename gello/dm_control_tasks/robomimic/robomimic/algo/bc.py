@@ -113,7 +113,24 @@ class BC(PolicyAlgo):
         # we move to device first before float conversion because image observation modalities will be uint8 -
         # this minimizes the amount of data transferred to GPU
         return TensorUtils.to_float(TensorUtils.to_device(input_batch, self.device))
+    
+    def postprocess_batch_for_testing(self, batch):
+        """
+        Postprocesses input batch from a data loader to filter out
+        relevant information and prepare the batch for testing.
 
+        Args:
+            batch (dict): dictionary with torch.Tensors sampled
+                from a data loader
+
+        Returns:
+            input_batch (dict): processed and filtered batch that
+                will be used for testing
+        """
+        input_batch = dict()
+        input_batch["obs"] = {k: batch["obs"][k][:, 0, :] for k in batch["obs"]}
+        input_batch["goal_obs"] = batch.get("goal_obs", None)
+        return TensorUtils.to_float(TensorUtils.to_device(input_batch, self.device))
 
     def train_on_batch(self, batch, epoch, validate=False):
         """
