@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "test",
+        "name": "allready",
         "validate": false,
         "logging": {
             "terminal_output_to_txt": true,
@@ -12,7 +12,7 @@
         "save": {
             "enabled": true,
             "every_n_seconds": null,
-            "every_n_epochs": 10,
+            "every_n_epochs": 50,
             "epochs": [],
             "on_best_validation": false,
             "on_best_rollout_return": false,
@@ -23,11 +23,11 @@
         "env": null,
         "additional_envs": null,
         "render": false,
-        "render_video": false,
+        "render_video": true,
         "keep_all_videos": false,
         "video_skip": 5,
         "rollout": {
-            "enabled": false,
+            "enabled": true,
             "n": 50,
             "horizon": 400,
             "rate": 50,
@@ -37,8 +37,8 @@
     },
     "train": {
         "data": null,
-        "output_dir": "/home/sj/Downloads/bc_trained_models",
-        "num_data_workers": 2,
+        "output_dir": "../bc_trained_models",
+        "num_data_workers": 0,
         "hdf5_cache_mode": "all",
         "hdf5_use_swmr": true,
         "hdf5_load_next_obs": false,
@@ -57,13 +57,13 @@
         "goal_mode": null,
         "cuda": true,
         "batch_size": 100,
-        "num_epochs": 3000,
+        "num_epochs": 2000,
         "seed": 1
     },
     "algo": {
         "optim_params": {
             "policy": {
-                "optimizer_type": "adamw",
+                "optimizer_type": "adam",
                 "learning_rate": {
                     "initial": 0.0001,
                     "decay_factor": 0.1,
@@ -136,25 +136,25 @@
         },
         "rnn": {
             "enabled": true,
-            "horizon": 10,
-            "hidden_dim": 400,
+            "horizon": 30,
+            "hidden_dim": 512,
             "rnn_type": "LSTM",
-            "num_layers": 2,
+            "num_layers": 4,
             "open_loop": false,
             "kwargs": {
                 "bidirectional": false
             }
         },
         "transformer": {
-            "enabled": false,
-            "context_length": 10,
+            "enabled": true,
+            "context_length": 20,
             "embed_dim": 512,
             "num_layers": 6,
             "num_heads": 8,
             "emb_dropout": 0.1,
             "attn_dropout": 0.1,
             "block_output_dropout": 0.1,
-            "sinusoidal_embedding": false,
+            "sinusoidal_embedding": true,
             "activation": "gelu",
             "supervise_all_steps": false,
             "nn_parameter_for_timesteps": true
@@ -164,8 +164,6 @@
         "modalities": {
             "obs": {
                 "low_dim": [
-                    "robot0_eef_pos",
-                    "robot0_eef_quat",
                     "robot0_joint_pos"
                 ],
                 "rgb": [],
