@@ -29,13 +29,13 @@ def print_color(*args, color=None, attrs=(), **kwargs):
 @dataclass
 class Args:
     agent: str = "none"
-    # robot_port: int = 6001 #for_mujoco
-    robot_port: int = 50003  # for trajectory
+    robot_port: int = 6001 #for_mujoco
+    # robot_port: int = 50003  # for trajectory
     wrist_camera_port: int = 5000
     base_camera_port: int = 5001
-    # hostname: str = "127.0.0.1" #for_mujoco
-    hostname: str = "192.168.77.243"
-    robot_ip: str = "192.168.77.21" 
+    hostname: str = "127.0.0.1" #for_mujoco
+    # hostname: str = "192.168.77.243"
+    # robot_ip: str = "192.168.77.21" 
     robot_type: str = None  # only needed for quest agent or spacemouse agent
     hz: int = 100
     start_joints: Optional[Tuple[float, ...]] = None
@@ -282,7 +282,7 @@ def main(args):
             obs = env.step(action)
             print("Current: ", env.get_obs()["joint_positions"])
             # Specify the file path
-            csv_file_path = 'csv/output201.csv'# Writing to CSV file
+            csv_file_path = 'csv/output100.csv'# Writing to CSV file
             with open(csv_file_path, mode='a', newline='') as file:
                 writer = csv.writer(file)
                 if file.tell() == 0:
