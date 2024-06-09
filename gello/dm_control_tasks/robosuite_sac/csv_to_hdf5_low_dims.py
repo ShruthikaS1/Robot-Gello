@@ -6,7 +6,7 @@ import glob
 import os
 
 # Define the folder paths
-csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoal100"
+csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoal100"sa
 end_eff_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoalsp100/end_eff5"
 
 # Initialize lists to store data
