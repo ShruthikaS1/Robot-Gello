@@ -1,7 +1,7 @@
 {
     "algo_name": "bc",
     "experiment": {
-        "name": "allready",
+        "name": "allready3",
         "validate": false,
         "logging": {
             "terminal_output_to_txt": true,
@@ -23,16 +23,16 @@
         "env": null,
         "additional_envs": null,
         "render": false,
-        "render_video": true,
+        "render_video": false,
         "keep_all_videos": false,
         "video_skip": 5,
         "rollout": {
-            "enabled": true,
+            "enabled": false,
             "n": 50,
             "horizon": 400,
             "rate": 50,
             "warmstart": 0,
-            "terminate_on_success": true
+            "terminate_on_success": false
         }
     },
     "train": {

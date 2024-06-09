@@ -565,6 +565,7 @@ class BC_RNN(BC):
         assert not self.nets.training
 
         if self._rnn_hidden_state is None or self._rnn_counter % self._rnn_horizon == 0:
+            print(obs_dict.keys())
             batch_size = list(obs_dict.values())[0].shape[0]
             self._rnn_hidden_state = self.nets["policy"].get_rnn_init_state(batch_size=batch_size, device=self.device)
 

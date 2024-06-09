@@ -4,13 +4,12 @@ import numpy as np
 import pandas as pd
 import glob 
 import os
-# from joblib import Parallel, delayed
-# from forward_kinematics import ForwardKinematicsUR5e
 
-# Create sample data
-# csv_folder = "/home/sj/Downloads/csv"
-csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv"
+# Define the folder paths
+csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoal100"
+end_eff_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoalsp100/end_eff5"
 
+# Initialize lists to store data
 low_dim_data = []
 next_low_dim_data = []
 
@@ -26,20 +25,44 @@ next_robot_end_eff_quat = []
 states_data = []
 next_states_data = []
 
-for csv_file in glob.glob(os.path.join(csv_folder, '*.csv')):
+# Print folder paths
+print("CSV Folder Path:", csv_folder)
+print("End Effector Folder Path:", end_eff_folder)
+
+# Get the list of CSV files in both folders
+csv_files = glob.glob(os.path.join(csv_folder, '*.csv'))
+end_eff_files = glob.glob(os.path.join(end_eff_folder, '*.csv'))
+
+# Print the list of CSV files
+# print("CSV Files:", csv_files)
+# print("End Effector Files:", end_eff_files)
+
+# Ensure both lists are not empty
+if not csv_files:
+    print("No CSV files found in the CSV folder.")
+if not end_eff_files:
+    print("No CSV files found in the End Effector folder.")
+
+# Process each pair of CSV and end effector files
+for csv_file, end_eff_file in zip(csv_files, end_eff_files):
+
+    print(f"Processing {csv_file} and {end_eff_file}")
+    
+    # Read data from CSV files
     dataset = pd.read_csv(csv_file, usecols=range(0, 6), skipfooter=1, engine='python').astype(np.float64)
     next_dataset = pd.read_csv(csv_file, usecols=range(0, 6), skiprows=1, engine='python').astype(np.float64)
-
-    action_dataframe = pd.read_csv(csv_file, usecols=range(6, 12), skipfooter=1, engine='python').astype(np.float64)
     
-    robot_end_eff_pos_df = pd.read_csv(csv_file, usecols=range(6, 9), skipfooter=1, engine='python').astype(np.float64)
-    next_robot_end_eff_pos_df = pd.read_csv(csv_file, usecols=range(6, 9), skiprows=1, engine='python').astype(np.float64)   
+    robot_end_eff_pos_df = pd.read_csv(end_eff_file, usecols=range(0, 3), skipfooter=1, engine='python').astype(np.float64)
+    next_robot_end_eff_pos_df = pd.read_csv(end_eff_file, usecols=range(0, 3), skiprows=1, engine='python').astype(np.float64)   
+       
+    robot_end_eff_quat_df = pd.read_csv(csv_file, usecols=range(3, 7), skipfooter=1, engine='python').astype(np.float64)
+    next_robot_end_eff_quat_df = pd.read_csv(csv_file, usecols=range(3, 7), skiprows=1, engine='python').astype(np.float64)
     
-    robot_end_eff_quat_df = pd.read_csv(csv_file, usecols=range(12, 16), skipfooter=1, engine='python').astype(np.float64)
-    next_robot_end_eff_quat_df = pd.read_csv(csv_file, usecols=range(12, 16), skiprows=1, engine='python').astype(np.float64)
+    action_dataframe = pd.concat([next_dataset, next_robot_end_eff_pos_df, next_robot_end_eff_quat_df], axis=1)
     
     states_dataframe = pd.read_csv(csv_file, usecols=range(0, 16), skipfooter=1, engine='python').astype(np.float64)
 
+    # Append data to lists
     low_dim_data.append(dataset)
     next_low_dim_data.append(next_dataset)
 
@@ -53,7 +76,11 @@ for csv_file in glob.glob(os.path.join(csv_folder, '*.csv')):
 
     states_data.append(states_dataframe)
 
-print("Low dim data shape:", low_dim_data[0].shape)
+# Print the shape of the first dataset as a check
+if low_dim_data:
+    print("Low dim data shape:", low_dim_data[0].shape)
+else:
+    print("No data loaded into low_dim_data.")
 
 # Define the data
 total_samples = len(low_dim_data)
@@ -97,17 +124,12 @@ env_args = {
 }
 
 # Define HDF5 file path
-file_path = "/home/sj/Downloads/test2_data.hdf5"
+file_path = "/home/sj/Downloads/end_eff_lowdim_5.hdf5"
 
-# if not os.path.exists(file_path):
-#     os.makedirs(file_path)
 # Delete the existing HDF5 file if it exists
 if os.path.exists(file_path):
     os.remove(file_path)
 
-# fk = ForwardKinematicsUR5e()
-
-# Write data to HDF5 file
 with h5py.File(file_path, "w") as f:
     # Create the data group
     data_group = f.create_group("data")
@@ -183,4 +205,4 @@ with h5py.File(file_path, "w") as f:
     
 
 print("Data has been written to:", file_path)
-
+       
