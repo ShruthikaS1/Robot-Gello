@@ -17,6 +17,9 @@ from gello.zmq_core.robot_node import ZMQClientRobot
 
 import pandas as pd
 
+import glob
+import os
+from tqdm import tqdm
 
 def print_color(*args, color=None, attrs=(), **kwargs):
     import termcolor
@@ -59,18 +62,36 @@ def print_state(env):
         # moved = env.step(np.array([0, -1.57, 0, -1.57, 0, 0]))
 
 
-def execute_trajectory(env, csv_file_path):
-    data = pd.read_csv(csv_file_path)
+def execute_trajectory(env):
+    # data = pd.read_csv(csv_file_path)
     # Convert angles to lists of lists
-    joint_angles = data[['shoulder_pan_angle', 'shoulder_lift_angle','elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle']].values.tolist()
-    print(joint_angles)
+    # joint_angles = data[['shoulder_pan_angle', 'shoulder_lift_angle','elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle']].values.tolist()
+    # print(joint_angles)
+    joint_angles = []
     # joint_angles.append([0.0, -1.57, 0.0, -1.57, 0.0, 0.0])
+    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57])
     for angles in joint_angles:
         # Set the joint angles
         time.sleep(0.8)
         moved = env.step(np.array(angles))
         print(moved["joint_positions"])
         
+
+def execute_all_csvs(env, csv_folder):
+    for n, csv_file in enumerate(glob.glob(os.path.join(csv_folder, "*.csv"))):
+        # Read CSV file
+        dataset = pd.read_csv(csv_file, usecols=range(0, 6), engine="python").astype(np.float64)
+
+        print(f"Executing CSV File: {n}")
+        for i in tqdm(range(0, len(dataset))):
+        # for i in range(0, len(dataset)):
+            joint_angle = np.array(dataset.iloc[i]) 
+            time.sleep(0.2)
+            obs = env.step(joint_angle)
+            # print(obs["ee_pos_quat"])
+
+
+
 
 if __name__ == "__main__":
     robot_client = ZMQClientRobot(port=Args.robot_port, host=Args.hostname)
@@ -79,13 +100,12 @@ if __name__ == "__main__":
         # "wrist": ZMQClientCamera(port=args.wrist_camera_port, host=args.hostname),
         # "base": ZMQClientCamera(port=args.base_camera_port, host=args.hostname),
     }
-    csv_file_path =  Path(__file__).parent.parent / "csv" / "tofu2_10_new.csv"
+    csv_folder =  Path(__file__).parent.parent / "csv" / "samestartdiffgoalsp100" / "pose"
 
     env = RobotEnv(robot_client, control_rate_hz=Args.hz, camera_dict=camera_clients)
+    # execute_trajectory(env)
+    execute_all_csvs(env, csv_folder)
 
-    execute_trajectory(env, csv_file_path)
-    # print(print_state(env))
-    # main(tyro.cli(Args))
 
 
 
