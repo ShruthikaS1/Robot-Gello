@@ -10,18 +10,37 @@ cd gello_software
 
 1. Download and Clone the repository
 2. Manually install the libraries and dependencies from the requriements.txt file or from the github link above
-3. Open the folder /gello_software in the terminal
-4. Run the python file to fire up mujoco
    ```
-   python experiments/launch_nodes.py --robot sim_urspoon
+   cd /Assistive_Feeding_Gello
+   pip3 install -e .
    ```
-5. Connect the Gello hardware and run the python script
+3. Simulation
+   
+   UR3e - Spoon
+
    ```
-   python experiments/run_env.py --agent=gello
+   python3 experiments/launch_nodes.py --robot sim_urspoon
    ```
-6. Additionally, joint angles can also be passed from the csv file, Run the python script below to execute one of the joint angle trajectories
+
+   UR3e - Hande
    ```
-   python experiments/joint_angles.py
+   python3 experiments/launch_nodes.py --robot sim_urhande
+   ```
+
+4. Connect the Gello hardware and to Control the Robot
+
+   UR3e Spoon
+   ```
+   python3 experiments/run_env_ur.py --agent=gello
+   ```
+
+   UR3e Hande
+   ```
+   python3 experiments/run_env.py --agent=gello
+   ```
+5. Additionally, joint angles can also be passed from the csv file, Run the python script below to execute one of the joint angle trajectories/to reach home position
+   ```
+   python3 experiments/joint_angles.py
    ```
 
    
