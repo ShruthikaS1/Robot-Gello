@@ -69,7 +69,7 @@ def execute_trajectory(env):
     # print(joint_angles)
     joint_angles = []
     # joint_angles.append([0.0, -1.57, 0.0, -1.57, 0.0, 0.0])
-    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57])
+    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57, 1])
     for angles in joint_angles:
         # Set the joint angles
         time.sleep(0.8)
@@ -103,8 +103,8 @@ if __name__ == "__main__":
     csv_folder =  Path(__file__).parent.parent / "csv" / "samestartdiffgoalsp100" / "pose"
 
     env = RobotEnv(robot_client, control_rate_hz=Args.hz, camera_dict=camera_clients)
-    # execute_trajectory(env)
-    execute_all_csvs(env, csv_folder)
+    execute_trajectory(env)
+    # execute_all_csvs(env, csv_folder)
 
 
 
