@@ -43,4 +43,25 @@ cd gello_software
    python3 experiments/joint_angles.py
    ```
 
-   
+## Switching between Spoon Mount and Gripper
+Swtich to **Gripper**
+1. In _gello/agents/gello_agent.py_ change the gripper_config to a tuple
+2. In _experiments/run_env.py_ change the reset_joints to 7 dimensions
+
+Switch to **Spoon mount**
+1. In _gello/agents/gello_agent.py_ change the gripper_config to **None**
+2. In _experiments/run_env.py_ change the reset_joints to 6 dimensions
+
+### Utilities - Gello Hardware
+To check U2D2 gello port
+   ````
+   ls /dev/serial/by-id
+   ````
+To Calibrate the Gello
+   ```
+   python3 scripts/gello_get_offset.py \
+      --start-joints -1.57 -1.57 -1.57 -1.57 1.57 1.57 \
+      --joint-signs 1 1 -1 1 1 1 \
+      --port /dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FT8ISZZM-if00-port0
+
+   ```

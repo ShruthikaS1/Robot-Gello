@@ -4,7 +4,6 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple
-from forward_kinematics import ForwardKinematicsUR5e
 
 import numpy as np
 import tyro
@@ -124,7 +123,7 @@ def main(args):
             if args.start_joints is None:
                 reset_joints = np.deg2rad(
                     # [0, -90, 90, -90, -90, 0, 0]
-                    [-90, -90, -90, -90, 90, 90]
+                    [-90, -90, -90, -90, 90, 90, 0]
                     # [90, -90, -90, -90, 90, 0]
                 )  # Change this to your own reset joints
             else:
@@ -161,6 +160,7 @@ def main(args):
     start_pos = agent.act(env.get_obs())
     obs = env.get_obs()
     joints = obs["joint_positions"]
+    print(start_pos)
 
     abs_deltas = np.abs(start_pos - joints)
     id_max_joint_delta = np.argmax(abs_deltas)
