@@ -8,7 +8,7 @@ import cv2
 
 # Create sample data
 # csv_folder = "/home/sj/Downloads/csv"
-csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv"
+csv_folder = "/home/sj/Assistive_Feeding_Gello/csv/samestartdiffgoal100"
 
 
 image_folder = "/home/sj/Downloads/images"
@@ -66,7 +66,8 @@ for image_file in glob.glob(os.path.join(image_folder, '*.jpg')):
     it += 1
 
 image_data = np.array(image_data)
-image_data = np.reshape(image_data, (len(image_data), 84, 84, 3))
+image_data = np.reshape(image_data, (len(image_data), 3, 84, 84))
+image_data = np.concatenate((image_data, np.zeros((len(image_data), 1, 84, 84))), axis=1)
 
 print("Low dim data shape:", low_dim_data[0].shape)
 print("Image data shape:", image_data.shape)
