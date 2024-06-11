@@ -75,7 +75,7 @@ print("Gello Environment")
 
 print("Visualizing Model: ")
 gello_obs = env.get_obs()
-for i in range(0, 100):
+for i in range(0, 1000):
     obs_to_pass = {"robot0_joint_pos": gello_obs["joint_positions"]}
     # obs_to_pass["robot0_joint_pos"] = np.append(obs_to_pass["robot0_joint_pos"], -1)        # Default model 
     act = policy(obs_to_pass)

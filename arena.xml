@@ -1,6 +1,6 @@
 <mujoco model="unnamed_model">
-  <compiler angle="radian"/>
-  <option integrator="implicitfast"/>
+  <compiler autolimits="true" angle="radian"/>
+  <option impratio="10" integrator="implicitfast" cone="elliptic"/>
   <visual>
     <global azimuth="120" elevation="-20"/>
     <headlight ambient="0.10000000000000001 0.10000000000000001 0.10000000000000001" diffuse="0.59999999999999998 0.59999999999999998 0.59999999999999998" specular="0 0 0"/>
@@ -35,6 +35,16 @@
         </default>
       </default>
     </default>
+    <default class="ur5e scene/robotiq_hande/">
+      <default class="ur5e scene/robotiq_hande/hande">
+        <default class="ur5e scene/robotiq_hande/hande_right_finger">
+          <joint type="slide" range="0 0.025000000000000001" actuatorfrcrange="-100 100"/>
+        </default>
+        <default class="ur5e scene/robotiq_hande/hande_left_finger">
+          <joint type="slide" range="0 0.025000000000000001" actuatorfrcrange="-100 100"/>
+        </default>
+      </default>
+    </default>
   </default>
   <asset>
     <texture name="ur5e scene//unnamed_texture_0" type="skybox" builtin="gradient" rgb1="0.29999999999999999 0.5 0.69999999999999996" rgb2="0 0 0" width="512" height="3072"/>
@@ -53,6 +63,10 @@
     <mesh name="ur5e scene/wrist3" class="ur5e scene/" file="wrist3-a06cb2cf9cb97f23d5a2348cc579ab9de9fa680b.stl"/>
     <mesh name="ur5e scene/cameraholder" class="ur5e scene/" file="cameraholder-2238f1b3ee6d897ba358d06f4f0589688367dc26.stl" scale="0.0001 0.0001 0.0001"/>
     <mesh name="ur5e scene/simple_spoon" class="ur5e scene/" file="simple_spoon-ed2261fff37c741aa31eb52905715e4bfcdbabd6.stl" scale="0.0011999999999999999 0.0011999999999999999 0.0011999999999999999"/>
+    <mesh name="ur5e scene/robotiq_hande/hande" class="ur5e scene/robotiq_hande/" file="hande-1add33de79f290e7a3cf5e6d7232c5abc5ab2175.stl"/>
+    <mesh name="ur5e scene/robotiq_hande/coupler" class="ur5e scene/robotiq_hande/" file="coupler-5d68f53479c6a94cfcd4f39db0a25a4168863a64.stl"/>
+    <mesh name="ur5e scene/robotiq_hande/right_finger" class="ur5e scene/robotiq_hande/" file="finger_1-889bec3dd36898b042074897643782a92a7b9a48.stl"/>
+    <mesh name="ur5e scene/robotiq_hande/left_finger" class="ur5e scene/robotiq_hande/" file="finger_2-2918ee85e43a49c3b03448c73d41f875a48b0a94.stl"/>
   </asset>
   <worldbody>
     <body name="ur5e scene/">
@@ -93,15 +107,23 @@
                     <joint name="ur5e scene/wrist_3_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
                     <geom name="ur5e scene//unnamed_geom_13" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/wrist3"/>
                     <geom name="ur5e scene//unnamed_geom_14" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/wrist3"/>
-                    <body name="ur5e scene/camera_holder" pos="0 0.10000000000000001 0" euler="0 0 0">
-                      <geom name="ur5e scene//unnamed_geom_15" type="mesh" rgba="0.10000000000000001 0.29999999999999999 0.29999999999999999 1" mesh="ur5e scene/cameraholder"/>
-                      <geom name="ur5e scene//unnamed_geom_16" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/cameraholder"/>
-                      <inertial pos="0 0 0.16" euler="1.5700000000000001 1.5700000000000001 0" mass="0.050000000000000003" diaginertia="0.01 0.01 0.01"/>
-                      <body name="ur5e scene/simple_spoon" pos="0 0.16 0" euler="0 0 0">
-                        <geom name="ur5e scene//unnamed_geom_17" type="mesh" rgba="0.10000000000000001 0.29999999999999999 0.29999999999999999 1" mesh="ur5e scene/simple_spoon"/>
-                        <geom name="ur5e scene//unnamed_geom_18" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/simple_spoon"/>
-                        <inertial pos="0 0 0.16" euler="1.5700000000000001 1.5700000000000001 0" mass="0.050000000000000003" diaginertia="0.01 0.01 0.01"/>
-                        <site name="ur5e scene/attachment_site" pos="0 0.10000000000000001 0" quat="-1 1 0 0"/>
+                    <site name="ur5e scene/attachment_site" pos="0 0.10000000000000001 0" quat="-1 1 0 0"/>
+                    <body pos="0 0.10000000000000001 0" quat="-1 1 0 0" name="ur5e scene/robotiq_hande/">
+                      <light name="ur5e scene/robotiq_hande//unnamed_light_0" class="ur5e scene/robotiq_hande/" directional="true" pos="0 0 1.5" dir="0 0 -1"/>
+                      <body name="ur5e scene/robotiq_hande/hande">
+                        <geom name="ur5e scene/robotiq_hande/hande_coupler" class="ur5e scene/robotiq_hande/" type="mesh" conaffinity="0" group="1" rgba="0.10000000000000001 0.10000000000000001 0.10000000000000001 1" mesh="ur5e scene/robotiq_hande/coupler"/>
+                        <geom name="ur5e scene/robotiq_hande/hande_base" class="ur5e scene/robotiq_hande/" type="mesh" conaffinity="0" group="1" rgba="0.10000000000000001 0.10000000000000001 0.10000000000000001 1" mesh="ur5e scene/robotiq_hande/hande"/>
+                        <site name="ur5e scene/robotiq_hande/tcp" class="ur5e scene/robotiq_hande/" rgba="0 0 0 0.10000000000000001" size="0.001" pos="0 0 0.13500000000000001"/>
+                        <body name="ur5e scene/robotiq_hande/hande_left_finger" pos="0 0 0.099000000000000005">
+                          <inertial pos="0.022620000000000001 -0.0075900000000000004 0.0073800000000000003" quat="0.87195199999999995 0.036973199999999998 -0.21107300000000001 0.44020500000000001" mass="0.038039999999999997" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
+                          <joint name="ur5e scene/robotiq_hande/hande_left_finger_joint" class="ur5e scene/robotiq_hande/hande_left_finger" pos="0 0 0" axis="1 0 0"/>
+                          <geom name="ur5e scene/robotiq_hande//unnamed_geom_2" class="ur5e scene/robotiq_hande/" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.40000000000000002 0.40000000000000002 0.40000000000000002 1" mesh="ur5e scene/robotiq_hande/left_finger"/>
+                        </body>
+                        <body name="ur5e scene/robotiq_hande/hande_right_finger" pos="0 0 0.099000000000000005">
+                          <inertial pos="-0.022620000000000001 0.0075900000000000004 0.0073800000000000003" quat="0.87195199999999995 -0.036973199999999998 0.21107300000000001 0.44020500000000001" mass="0.038039999999999997" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
+                          <joint name="ur5e scene/robotiq_hande/hande_right_finger_joint" class="ur5e scene/robotiq_hande/hande_right_finger" pos="0 0 0" axis="-1 0 0"/>
+                          <geom name="ur5e scene/robotiq_hande//unnamed_geom_3" class="ur5e scene/robotiq_hande/" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.40000000000000002 0.40000000000000002 0.40000000000000002 1" mesh="ur5e scene/robotiq_hande/right_finger"/>
+                        </body>
                       </body>
                     </body>
                   </body>
@@ -113,6 +135,19 @@
       </body>
     </body>
   </worldbody>
+  <contact>
+    <exclude name="ur5e scene/robotiq_hande//unnamed_contact_0" body1="ur5e scene/robotiq_hande/hande" body2="ur5e scene/robotiq_hande/hande_left_finger"/>
+    <exclude name="ur5e scene/robotiq_hande//unnamed_contact_1" body1="ur5e scene/robotiq_hande/hande" body2="ur5e scene/robotiq_hande/hande_right_finger"/>
+  </contact>
+  <equality>
+    <joint name="ur5e scene/robotiq_hande//unnamed_equality_0" class="ur5e scene/robotiq_hande/" joint1="ur5e scene/robotiq_hande/hande_left_finger_joint" joint2="ur5e scene/robotiq_hande/hande_right_finger_joint" polycoef="0 1 0 0 0"/>
+  </equality>
+  <tendon>
+    <fixed name="ur5e scene/robotiq_hande/split" class="ur5e scene/robotiq_hande/">
+      <joint joint="ur5e scene/robotiq_hande/hande_left_finger_joint" coef="0.5"/>
+      <joint joint="ur5e scene/robotiq_hande/hande_right_finger_joint" coef="0.5"/>
+    </fixed>
+  </tendon>
   <actuator>
     <general name="ur5e scene/shoulder_pan" class="ur5e scene/size3" joint="ur5e scene/shoulder_pan_joint"/>
     <general name="ur5e scene/shoulder_lift" class="ur5e scene/size3" joint="ur5e scene/shoulder_lift_joint"/>
@@ -120,5 +155,6 @@
     <general name="ur5e scene/wrist_1" class="ur5e scene/size1" joint="ur5e scene/wrist_1_joint"/>
     <general name="ur5e scene/wrist_2" class="ur5e scene/size1" joint="ur5e scene/wrist_2_joint"/>
     <general name="ur5e scene/wrist_3" class="ur5e scene/size1" joint="ur5e scene/wrist_3_joint"/>
+    <general name="ur5e scene/robotiq_hande/hande_fingers_actuator" class="ur5e scene/robotiq_hande/hande" ctrlrange="0 255" forcerange="-200 200" tendon="ur5e scene/robotiq_hande/split" gaintype="affine" biastype="affine" gainprm="0.0098039200000000007" biasprm="0 -100 -10"/>
   </actuator>
 </mujoco>
