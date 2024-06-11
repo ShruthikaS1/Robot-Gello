@@ -39,7 +39,7 @@ def launch_robot_server(args: Args):
             Path(__file__).parent.parent / "third_party" / "mujoco_menagerie"
         )
         # xml = MENAGERIE_ROOT / "universal_robots_ur5e" / "scene.xml"
-        xml = Path(__file__).parent.parent / "third_party" / "spoon_grippers" / "universal_robots_ur5e" / "scene.xml"
+        xml = Path(__file__).parent.parent / "third_party" / "spoon_grippers" / "universal_robots_ur3e" / "scene.xml"
         gripper_xml = Path(__file__).parent.parent / "third_party" / "spoon_grippers" / "simple_spoon" / "simple_spoon.xml"
         from gello.robots.sim_robot import MujocoRobotServer
 
@@ -52,7 +52,7 @@ def launch_robot_server(args: Args):
             Path(__file__).parent.parent / "third_party" / "mujoco_menagerie"
         )
         # xml = MENAGERIE_ROOT / "universal_robots_ur5e" / "scene.xml"
-        xml = Path(__file__).parent.parent / "third_party" / "spoon_grippers" / "universal_robots_ur5e" / "scene_hande.xml"
+        xml = Path(__file__).parent.parent / "third_party" / "spoon_grippers" / "universal_robots_ur3e" / "scene_hande.xml"
         gripper_xml = MENAGERIE_ROOT / "robotiq_hande" / "hande.xml"
         from gello.robots.sim_robot import MujocoRobotServer
 
