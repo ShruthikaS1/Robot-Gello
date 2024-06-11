@@ -37,7 +37,7 @@
         <material class="ur3e" name="black" rgba="0.033 0.033 0.033 1"/>
         <material class="ur3e" name="jointgray" rgba="0.278 0.278 0.278 1"/>
         <material class="ur3e" name="linkgray" rgba="0.82 0.82 0.82 1"/>
-        <material class="ur3e" name="urblue" rgba="0.49 0.678 0.8 1"/>
+        <material class="ur3e" name="urblue" rgba="0.49 0.678 0.9 0.3"/>
 
         <mesh name="base"     file="base.stl" />
         <mesh name="shoulder" file="shoulder.stl" />
@@ -54,48 +54,55 @@
     <light name="spotlight" mode="targetbodycom" target="wrist_2_link" pos="0 -1 2"/>
     <body name="base" pos="0 0 0" quat="1 0 0 1" childclass="ur3e">
         <inertial mass="2.0" pos="0 0 0" diaginertia="0.00443333156 0.00443333156 0.0072"/>
+        <geom type="mesh" mesh="base" conaffinity="0" contype="1"  />
         <geom mesh="base" material="urblue" class="visual"/>
-        <geom mesh="base" material="black" class="visual"/>
+        <!-- <geom mesh="base" material="black" class="visual"/> -->
         <!-- <geom mesh="base" material="jointgray" class="visual"/> -->
         <body name="shoulder_link" pos="0 0 0.152">
             <inertial pos="0 0 0" mass="2" diaginertia="0.00809316 0.00809316 0.005625" />
             <joint name="shoulder_pan_joint" pos="0 0 0" axis="0 0 1" range="-3.14159 3.14159" />
+            <geom type="mesh" mesh="shoulder" conaffinity="0" contype="1"  />
             <geom mesh="shoulder" material="urblue" class="visual"/>
-            <geom mesh="shoulder" material="black" class="visual"/>
+            <!-- <geom mesh="shoulder" material="black" class="visual"/> -->
             <!-- <geom mesh="shoulder" material="jointgray" class="visual"/> -->
             <body name="upper_arm_link" pos="0 0.12 0" quat="0.707107 0 0.707107 0">
                 <inertial pos="0 0 0.122" mass="1.71" diaginertia="0.0217771 0.0217771 0.00961875" />
                 <joint name="shoulder_lift_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
                 <!-- <geom mesh="upperarm" material="linkgray" class="visual"/> -->
+                <geom type="mesh" mesh="upperarm" conaffinity="0" contype="1"  />
                 <geom mesh="upperarm" material="urblue" class="visual"/>
-                <geom mesh="upperarm" material="black" class="visual"/>
+                <!-- <geom mesh="upperarm" material="black" class="visual"/> -->
                 <!-- <geom mesh="upperarm" material="jointgray" class="visual"/> -->
                 <body name="forearm_link" pos="0 -0.093 0.244">
                     <inertial pos="0 0 0.1065" mass="0.63" diaginertia="0.00653562 0.00653562 0.00354375" />
                     <joint name="elbow_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
+                    <geom type="mesh" mesh="forearm" conaffinity="0" contype="1"  />
                     <geom mesh="forearm" material="urblue" class="visual"/>
                     <!-- <geom mesh="forearm" material="linkgray" class="visual"/> -->
-                    <geom mesh="forearm" material="black" class="visual"/>
+                    <!-- <geom mesh="forearm" material="black" class="visual"/> -->
                     <!-- <geom mesh="forearm" material="jointgray" class="visual"/> -->
                     <body name="wrist_1_link" pos="0 0 0.213" quat="0.707107 0 0.707107 0">
                         <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.4" diaginertia="0.00225 0.002085 0.002085" />
                         <joint name="wrist_1_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
+                        <geom type="mesh" mesh="wrist1" conaffinity="0" contype="1"  />
                         <geom mesh="wrist1" material="urblue" class="visual"/>
-                        <geom mesh="wrist1" material="black" class="visual"/>
+                        <!-- <geom mesh="wrist1" material="black" class="visual"/> -->
                         <!-- <geom mesh="wrist1" material="jointgray" class="visual"/> -->
                         <body name="wrist_2_link" pos="0 0.104 0">
                             <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.4" diaginertia="0.00225 0.002085 0.002085" />
                             <joint name="wrist_2_joint" pos="0 0 0" axis="0 0 1" limited="true" range="-3.14159 3.14159" />
+                            <geom type="mesh" mesh="wrist2" conaffinity="0" contype="1"  />
                             <geom mesh="wrist2" material="urblue" class="visual"/>
-                            <geom mesh="wrist2" material="black" class="visual"/>
+                            <!-- <geom mesh="wrist2" material="black" class="visual"/> -->
                             <!-- <geom mesh="wrist2" material="jointgray" class="visual"/> -->
                             <body name="wrist_3_link" pos="0 0 0.085">
                                 <inertial pos="0 0.000233618 0" quat="0.5 0.5 -0.5 0.5" mass="0.1705" diaginertia="0.000991097 0.000918909 0.000912204" />
                                 <joint name="wrist_3_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" />
                                 <!-- <geom mesh="wrist3" material="linkgray" class="visual"/> -->
                                 <!-- <geom mesh="wrist3" material="jointgray" class="visual"/> -->
+                                <geom type="mesh" mesh="wrist3" conaffinity="0" contype="1"  />
                                 <geom mesh="wrist3" material="urblue" class="visual"/>
-                                <geom mesh="wrist3" material="black" class="visual"/>
+                                <!-- <geom mesh="wrist3" material="black" class="visual"/> -->
                                 <!-- <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="wrist3" /> -->
                                 <!-- <geom size="0.005 0.005 0.005" pos="0 0.082 0" quat="0.707107 0 0 0.707107" type="box" /> -->
                                 <site name="attachment_site" pos="0 0.1 0" quat="-1 1 0 0"/>
