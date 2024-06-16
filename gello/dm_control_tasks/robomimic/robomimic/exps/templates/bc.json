@@ -164,7 +164,7 @@
         "modalities": {
             "obs": {
                 "low_dim": [
-                    "robot0_joint_pos"
+                    "robot0_eef_pos"
                 ],
                 "rgb": [],
                 "depth": [],

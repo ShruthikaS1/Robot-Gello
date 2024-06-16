@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional, Tuple
 import csv
-from forward_kinematics import ForwardKinematicsUR5e
 
 import numpy as np
 import tyro
@@ -29,13 +28,13 @@ def print_color(*args, color=None, attrs=(), **kwargs):
 @dataclass
 class Args:
     agent: str = "none"
-    robot_port: int = 6001 #for_mujoco
-    # robot_port: int = 50003  # for trajectory
+    # robot_port: int = 6001 #for_mujoco
+    robot_port: int = 50003  # for trajectory
     wrist_camera_port: int = 5000
     base_camera_port: int = 5001
-    hostname: str = "127.0.0.1" #for_mujoco
-    # hostname: str = "192.168.77.243"
-    # robot_ip: str = "192.168.77.21" 
+    # hostname: str = "127.0.0.1" #for_mujoco
+    hostname: str = "192.168.77.243"
+    robot_ip: str = "192.168.77.21" 
     robot_type: str = None  # only needed for quest agent or spacemouse agent
     hz: int = 100
     start_joints: Optional[Tuple[float, ...]] = None
@@ -124,7 +123,7 @@ def main(args):
                 print('in if condition')
                 reset_joints = (
                     # [1.57, -1.57, -1.57, -1.57, 1.57, 0.0]
-                    [-1.57, -1.57, -1.57, -1.57, 1.57, 1.57]
+                    [-1.57, -1.57, -1.57, -1.57, 1.57, 1.57, 0.0]
                 )  # Change this to your own reset joints
             else:
                 reset_joints = np.array(args.start_joints)
@@ -165,7 +164,7 @@ def main(args):
     print("Going to start position")
     start_pos = agent.act(env.get_obs())
     # here we only care about the first 6 joints
-    start_pos = start_pos[:6]
+    # start_pos = start_pos[:6]
     obs = env.get_obs()  # gets the gello joint positions
     joints = obs["joint_positions"] # gets the UR5e joint positions
 
@@ -205,25 +204,28 @@ def main(args):
 
     max_delta = 0.05
     for _ in range(25):
+        print("getting obs to go to start position")
         obs = env.get_obs()
+        print("got obs", obs)
         command_joints = agent.act(obs)
         # here we only care about the first 6 joints
-        command_joints = command_joints[:6]
+        # command_joints = command_joints[:6]
         current_joints = obs["joint_positions"]
         print("command_joints", command_joints)
         delta = command_joints - current_joints
         max_joint_delta = np.abs(delta).max()
         if max_joint_delta > max_delta:
+            print("max_joint_delta", max_joint_delta)
             delta = delta / max_joint_delta * max_delta
         env.step(current_joints + delta)
 
     obs = env.get_obs()
     joints = obs["joint_positions"]
     # here we only care about the first 6 joints
-    joints = joints[:6]
+    # joints = joints[:6]
     action = agent.act(obs) # gets the gello joint positions
     # here we only care about the first 6 joints
-    action = action[:6]
+    # action = action[:6]
     if (action - joints > 0.5).any():
         print("Action is too big")
 
@@ -259,7 +261,7 @@ def main(args):
             )
             action = agent.act(obs)
             # here we only care about the first 6 joints
-            action = action[:6]
+            # action = action[:6]
             dt = datetime.datetime.now()
             if args.use_save_interface:
                 state = kb_interface.update()
@@ -288,16 +290,6 @@ def main(args):
                 if file.tell() == 0:
                     writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_roll', 'end_eff_pitch', 'end_eff_yaw', 'end_eff_w', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq'])  # Write the header    writer.writerows(data)
                 obs = env.get_obs()["joint_positions"]
-
-                fk = ForwardKinematicsUR5e()
-
-                T = fk.get_transformation_matrix(θdeg1=obs[0], θdeg2=obs[1], θdeg3=obs[2], θdeg4=obs[3], θdeg5=obs[4], θdeg6=obs[5])
-
-                roll, pitch, yaw, x, y, z = fk.transform_to_rpy_and_xyz(T)
-                
-                w, xq, yq, zq = fk.convert_to_quaternions(roll, pitch, yaw)
-
-                obs = np.append(obs, [x, y, z, roll, pitch, yaw, w, xq, yq, zq])
 
                 # print(obs)
                 # print("Time", time.time() - start_time)

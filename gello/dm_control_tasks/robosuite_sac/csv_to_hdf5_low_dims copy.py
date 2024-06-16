@@ -9,9 +9,9 @@ import os
 
 # Create sample data
 # csv_folder = "/home/sj/Downloads/csv"
-csv_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoalsp100/posecopy"
+csv_folder = "/home/sj/Assistive_Feeding_Gello/csv/diffstartsamegoalsp100/end_eff5"
 
-end_eff_folder = "/home/sj/assistive_feed_gello/Assistive_Feeding_Gello/csv/samestartdiffgoalsp100/endeffcopy"
+end_eff_folder = "/home/sj/Assistive_Feeding_Gello/csv/diffstartsamegoalsp100/pose5"
 
 low_dim_data = []
 next_low_dim_data = []

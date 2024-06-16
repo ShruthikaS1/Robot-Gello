@@ -4,6 +4,7 @@ import numpy as np
 
 from gello.robots.robot import Robot
 
+import time
 
 class URRobot(Robot):
     """A class representing a UR robot."""
@@ -79,15 +80,20 @@ class URRobot(Robot):
         lookahead_time = 0.2
         gain = 100
 
-        robot_joints = joint_state[:6]
+        # robot_joints = joint_state[:6]
+        robot_joints = joint_state
+
         t_start = self.robot.initPeriod()
         self.robot.servoJ(
             robot_joints, velocity, acceleration, dt, lookahead_time, gain
         )
         if self._use_gripper:
             gripper_pos = joint_state[-1] * 255
+            print("Gripper Pos: ", gripper_pos)
             self.gripper.move(gripper_pos, 255, 10)
+            time.sleep(5)
         self.robot.waitPeriod(t_start)
+        print("robot wait period")
 
     def freedrive_enabled(self) -> bool:
         """Check if the robot is in freedrive mode.

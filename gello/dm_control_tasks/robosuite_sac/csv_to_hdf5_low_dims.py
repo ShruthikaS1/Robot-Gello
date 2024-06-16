@@ -6,8 +6,8 @@ import glob
 import os
 
 # Define the folder paths
-csv_folder = "/home/sj/Assistive_Feeding_Gello/csv/samestartdiffgoalsp100/pose5"
-end_eff_folder = "/home/sj/Assistive_Feeding_Gello/csv/samestartdiffgoalsp100/end_eff5"
+csv_folder = "/home/sj/Assistive_Feeding_Gello/csv/diffstartsamegoalsp100/pose5"
+end_eff_folder = "/home/sj/Assistive_Feeding_Gello/csv/diffstartsamegoalsp100/end_eff5"
 # Initialize lists to store data
 low_dim_data = []
 next_low_dim_data = []
@@ -170,7 +170,8 @@ with h5py.File(file_path, "w") as f:
         rewards_data = [0]*(len(low_dim_data[i])-3) + [1]*3
         globals()[f'states_demo_{i}'] = np.array(states_data[i])
         # globals()[f'actions_demo_{i}'] = np.array(action_dataset[i])
-        globals()[f'actions_demo_{i}'] = np.array(next_low_dim_data[i]) - np.array(low_dim_data[i])
+        # globals()[f'actions_demo_{i}'] = np.array(next_low_dim_data[i]) - np.array(low_dim_data[i])
+        globals()[f'actions_demo_{i}'] = np.array(next_robot_end_eff_pos[i])
         globals()[f'rewards_demo_{i}'] = rewards_data
         globals()[f'dones_demo_{i}'] = rewards_data
 

@@ -69,7 +69,7 @@ def execute_trajectory(env):
     # print(joint_angles)
     joint_angles = []
     # joint_angles.append([0.0, -1.57, 0.0, -1.57, 0.0, 0.0, 1])
-    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57, 1])
+    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57])
     for angles in joint_angles:
         # Set the joint angles
         time.sleep(0.8)

@@ -42,7 +42,7 @@ class Args:
 
 # set the model path
 # model_path = "/mnt/f/gcodes/RLHF-gello_software/robomimic/bc_trained_models_default/test/20240609111832/models/model_epoch_2000.pth"
-model_path = "/mnt/f/gcodes/RLHF-gello_software/robomimic/bc_trained_models/test/20240609110611/model_epoch_50.pth"
+model_path = "/home/sj/Assistive_Feeding_Gello/robomimic/bc_trained_models/allready2/20240614131730/models/model_epoch_50.pth"
 
 # set the device
 device = TorchUtils.get_torch_device(try_to_use_cuda=True)
@@ -83,4 +83,15 @@ for i in range(0, 1000):
     print("Action: ", act)
     gello_obs = env.step(act)
 
-
+# gello_obs = env.get_obs()
+# for i in range(0, 45):
+#     if i == 0:
+#         obs_to_pass = {"robot0_joint_pos": gello_obs["joint_positions"]}
+#     # obs_to_pass["robot0_joint_pos"] = np.append(obs_to_pass["robot0_joint_pos"], -1)        # Default model 
+#     act = policy(obs_to_pass)
+    
+#     obs_to_pass = {"robot0_joint_pos": gello_obs["joint_positions"] + act}
+    
+#     act = obs_to_pass["robot0_joint_pos"] + act                    # Default model
+#     print("Action: ", act)
+#     gello_obs = env.step(act)

@@ -71,7 +71,9 @@ class RobotiqGripper:
         """
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         assert self.socket is not None
+        print(f"Connecting to gripper at {hostname}:{port}")
         self.socket.connect((hostname, port))
+        print("Connected to gripper")
         self.socket.settimeout(socket_timeout)
 
     def disconnect(self) -> None:
@@ -341,7 +343,9 @@ class RobotiqGripper:
 def main():
     # test open and closing the gripper
     gripper = RobotiqGripper()
-    gripper.connect(hostname="192.168.1.10", port=63352)
+    # gripper.connect(hostname="192.168.1.10", port=63352)
+
+    gripper.connect(hostname="192.168.77.21", port=63352)
     # gripper.activate()
     print(gripper.get_current_position())
     gripper.move(20, 255, 1)
