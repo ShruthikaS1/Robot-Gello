@@ -12,6 +12,7 @@ cd gello_software
 2. Manually install the libraries and dependencies from the requriements.txt file or from the github link above
    ```
    cd /Assistive_Feeding_Gello
+   pip install -r requirements.txt
    pip3 install -e .
    ```
 3. Simulation
