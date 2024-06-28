@@ -8,6 +8,8 @@ from typing import Optional, Tuple
 import numpy as np
 import tyro
 
+import csv
+
 from gello.agents.agent import BimanualAgent, DummyAgent
 from gello.agents.gello_agent import GelloAgent
 from gello.data_utils.format_obs import save_frame
@@ -27,16 +29,13 @@ def print_color(*args, color=None, attrs=(), **kwargs):
 @dataclass
 class Args:
     agent: str = "none"
-    # robot_port: int = 6001
+    # robot_port: int = 6001 #for_mujoco
     robot_port: int = 50003  # for trajectory
-
     wrist_camera_port: int = 5000
     base_camera_port: int = 5001
-
-    # hostname: str = "127.0.0.1"
+    # hostname: str = "127.0.0.1" #for_mujoco
     hostname: str = "192.168.77.243"
     robot_ip: str = "192.168.77.21" 
-
     robot_type: str = None  # only needed for quest agent or spacemouse agent
     hz: int = 100
     start_joints: Optional[Tuple[float, ...]] = None
@@ -124,7 +123,7 @@ def main(args):
             if args.start_joints is None:
                 reset_joints = np.deg2rad(
                     # [0, -90, 90, -90, -90, 0, 0]
-                    [-90, -90, 90, -90, 90, 90, 0]
+                    [-90, -90, -90, -90, 90, 90, 0]
                 )  # Change this to your own reset joints
             else:
                 reset_joints = args.start_joints
@@ -155,8 +154,10 @@ def main(args):
     # going to start position
     print("Going to start position")
     start_pos = agent.act(env.get_obs())
+    print("start_pos", start_pos)
     obs = env.get_obs()
     joints = obs["joint_positions"]
+    print("current_joints", joints)
 
     abs_deltas = np.abs(start_pos - joints)
     id_max_joint_delta = np.argmax(abs_deltas)
@@ -164,7 +165,7 @@ def main(args):
     max_joint_delta = 0.8
     if abs_deltas[id_max_joint_delta] > max_joint_delta:
         id_mask = abs_deltas > max_joint_delta
-        print()
+ 
         ids = np.arange(len(id_mask))[id_mask]
         for i, delta, joint, current_j in zip(
             ids,
@@ -247,6 +248,21 @@ def main(args):
             else:
                 raise ValueError(f"Invalid state {state}")
         obs = env.step(action)
+        # Specify the file path
+        csv_file_path = '/home/sj/RLHF-gello_software/csv/output21.csv'      # Writing to CSV file
+        with open(csv_file_path, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            if file.tell() == 0:
+                writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq', 'end_eff_w', 'gripper_pos'])  # Write the header    writer.writerows(data)
+            obs = env.get_obs()["joint_positions"]
+
+            obs_end_eff = env.get_obs()["ee_pos_quat"]
+
+            # gripper_pos = env.get_obs()["gripper_position"]
+
+            obs_combined = np.concatenate((obs, obs_end_eff))
+
+            writer.writerow(obs_combined)
 
 
 if __name__ == "__main__":

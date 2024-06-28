@@ -81,10 +81,10 @@ PORT_CONFIG_MAP: Dict[str, DynamixelRobotConfig] = {
         joint_ids=(1, 2, 3, 4, 5, 6),
         joint_offsets=
         (
-            1*np.pi/2, 
+            5*np.pi/2, 
             2*np.pi/2, 
             0*np.pi/2, 
-            1*np.pi/2, 
+            5*np.pi/2, 
             0*np.pi/2, 
             0*np.pi/2,
         ),

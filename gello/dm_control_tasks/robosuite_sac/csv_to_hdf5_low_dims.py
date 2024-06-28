@@ -49,15 +49,22 @@ for csv_file, end_eff_file in zip(csv_files, end_eff_files):
     
     # Read data from CSV files
     dataset = pd.read_csv(csv_file, usecols=range(0, 6), skipfooter=1, engine='python').astype(np.float64)
+    gripper_data = [0]*(len(dataset)-5) + [1]*5
+
+    dataset = pd.concat([dataset, pd.DataFrame(gripper_data, columns=['gripper'])], axis=1)
+
     next_dataset = pd.read_csv(csv_file, usecols=range(0, 6), skiprows=1, engine='python').astype(np.float64)
-    
+    next_gripper_data = [0]*(len(next_dataset)-5) + [1]*5
+
+    next_dataset = pd.concat([dataset, pd.DataFrame(next_gripper_data, columns=['gripper'])], axis=1)
+
     robot_end_eff_pos_df = pd.read_csv(end_eff_file, usecols=range(0, 3), skipfooter=1, engine='python').astype(np.float64)
     next_robot_end_eff_pos_df = pd.read_csv(end_eff_file, usecols=range(0, 3), skiprows=1, engine='python').astype(np.float64)   
        
     robot_end_eff_quat_df = pd.read_csv(csv_file, usecols=range(3, 7), skipfooter=1, engine='python').astype(np.float64)
     next_robot_end_eff_quat_df = pd.read_csv(csv_file, usecols=range(3, 7), skiprows=1, engine='python').astype(np.float64)
     
-    action_dataframe = pd.concat([next_dataset, next_robot_end_eff_pos_df, next_robot_end_eff_quat_df], axis=1)
+    action_dataframe = pd.concat([next_robot_end_eff_pos_df, next_robot_end_eff_quat_df], axis=1)
     
     states_dataframe = pd.read_csv(csv_file, usecols=range(0, 16), skipfooter=1, engine='python').astype(np.float64)
 
@@ -84,7 +91,7 @@ else:
 # Define the data
 total_samples = len(low_dim_data)
 env_args = {
-    "env_name": "LAVA",
+    "env_name": "Lift",
     "env_version": "1.4.1",
     "type": 1,
     "env_kwargs": {
@@ -111,8 +118,9 @@ env_args = {
             "control_delta": True,
             "interpolation": None,
             "ramp_ratio": 0.2,
+            "control_delta": False,
         },
-        "robots": ["UR5e_Lava"],
+        "robots": ["UR5e"],
         "camera_depths": True,
         "camera_heights": 84,
         "camera_widths": 84,
@@ -169,9 +177,9 @@ with h5py.File(file_path, "w") as f:
 
         rewards_data = [0]*(len(low_dim_data[i])-3) + [1]*3
         globals()[f'states_demo_{i}'] = np.array(states_data[i])
-        # globals()[f'actions_demo_{i}'] = np.array(action_dataset[i])
+        globals()[f'actions_demo_{i}'] = np.array(action_dataset[i])
         # globals()[f'actions_demo_{i}'] = np.array(next_low_dim_data[i]) - np.array(low_dim_data[i])
-        globals()[f'actions_demo_{i}'] = np.array(next_robot_end_eff_pos[i])
+        # globals()[f'actions_demo_{i}'] = np.array(next_robot_end_eff_pos[i])
         globals()[f'rewards_demo_{i}'] = rewards_data
         globals()[f'dones_demo_{i}'] = rewards_data
 

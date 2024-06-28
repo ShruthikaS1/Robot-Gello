@@ -4,12 +4,11 @@ import numpy as np
 
 from gello.robots.robot import Robot
 
-import time
 
 class URRobot(Robot):
     """A class representing a UR robot."""
 
-    def __init__(self, robot_ip: str = "192.168.77.21", no_gripper: bool = True):
+    def __init__(self, robot_ip: str = "192.168.1.10", no_gripper: bool = False):
         import rtde_control
         import rtde_receive
 
@@ -31,7 +30,6 @@ class URRobot(Robot):
 
         [print("connect") for _ in range(4)]
 
-        # print(self.get_joint_state())
         self._free_drive = False
         self.robot.endFreedriveMode()
         self._use_gripper = not no_gripper
@@ -68,6 +66,20 @@ class URRobot(Robot):
             pos = robot_joints
         return pos
 
+    def get_end_eff_pos(self) -> np.ndarray:
+        """
+        Gives out the end effector position of the leader robot.
+        """
+
+        robot_end_eff_pos = self.r_inter.getActualTCPPose()
+        if self._use_gripper:
+            gripper_pos = self._get_gripper_pos()
+            end_eff_pos = np.append(robot_end_eff_pos, gripper_pos)
+        else:
+            end_eff_pos = robot_end_eff_pos
+        return end_eff_pos
+
+
     def command_joint_state(self, joint_state: np.ndarray) -> None:
         """Command the leader robot to a given state.
 
@@ -80,20 +92,15 @@ class URRobot(Robot):
         lookahead_time = 0.2
         gain = 100
 
-        # robot_joints = joint_state[:6]
-        robot_joints = joint_state
-
+        robot_joints = joint_state[:6]
         t_start = self.robot.initPeriod()
         self.robot.servoJ(
             robot_joints, velocity, acceleration, dt, lookahead_time, gain
         )
         if self._use_gripper:
             gripper_pos = joint_state[-1] * 255
-            print("Gripper Pos: ", gripper_pos)
             self.gripper.move(gripper_pos, 255, 10)
-            time.sleep(5)
         self.robot.waitPeriod(t_start)
-        print("robot wait period")
 
     def freedrive_enabled(self) -> bool:
         """Check if the robot is in freedrive mode.
@@ -118,7 +125,8 @@ class URRobot(Robot):
 
     def get_observations(self) -> Dict[str, np.ndarray]:
         joints = self.get_joint_state()
-        pos_quat = np.zeros(7)
+        # pos_quat = np.zeros(7)
+        pos_quat = self.get_end_eff_pos()
         gripper_pos = np.array([joints[-1]])
         return {
             "joint_positions": joints,
@@ -129,7 +137,7 @@ class URRobot(Robot):
 
 
 def main():
-    robot_ip = "192.168.77.21"
+    robot_ip = "192.168.1.11"
     ur = URRobot(robot_ip, no_gripper=True)
     print(ur)
     ur.set_freedrive_mode(True)

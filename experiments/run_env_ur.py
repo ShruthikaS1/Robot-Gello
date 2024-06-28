@@ -282,20 +282,20 @@ def main(args):
                 else:
                     raise ValueError(f"Invalid state {state}")
             obs = env.step(action)
-            print("Current: ", env.get_obs()["joint_positions"])
-            # Specify the file path
-            csv_file_path = 'csv/output100.csv'# Writing to CSV file
+            csv_file_path = '/home/sj/RLHF-gello_software/csv/output21.csv'      # Writing to CSV file
             with open(csv_file_path, mode='a', newline='') as file:
                 writer = csv.writer(file)
                 if file.tell() == 0:
-                    writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_roll', 'end_eff_pitch', 'end_eff_yaw', 'end_eff_w', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq'])  # Write the header    writer.writerows(data)
+                    writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq', 'end_eff_w', 'gripper_pos'])  # Write the header    writer.writerows(data)
                 obs = env.get_obs()["joint_positions"]
 
-                # print(obs)
-                # print("Time", time.time() - start_time)
-                # if time.time() - start_time > 0.005:
-                writer.writerow(obs)
-                # start_time = time.time()
+                obs_end_eff = env.get_obs()["ee_pos_quat"]
 
+                # gripper_pos = env.get_obs()["gripper_position"]
+
+                obs_combined = np.concatenate((obs, obs_end_eff))
+
+                writer.writerow(obs_combined)
+                
 if __name__ == "__main__":
     main(tyro.cli(Args))
