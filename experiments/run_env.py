@@ -25,7 +25,6 @@ def print_color(*args, color=None, attrs=(), **kwargs):
         args = tuple(termcolor.colored(arg, color=color, attrs=attrs) for arg in args)
     print(*args, **kwargs)
 
-#sachin
 @dataclass
 class Args:
     agent: str = "none"
