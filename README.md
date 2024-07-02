@@ -66,3 +66,13 @@ To Calibrate the Gello
       --port /dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FT8ISZZM-if00-port0
 
    ```
+
+To Calibrate the Gello - without Gripper
+   ```
+   python3 scripts/gello_get_offset.py \
+      --start-joints -1.57 -1.57 -1.57 -1.57 1.57 1.57 \
+      --joint-signs 1 1 -1 1 1 1 \
+      --no-gripper
+      --port /dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FT8ISZZM-if00-port0
+
+   ```

@@ -93,6 +93,27 @@ PORT_CONFIG_MAP: Dict[str, DynamixelRobotConfig] = {
         # gripper_config=None,
     ),
 
+
+    # Active Arm - 3D Print
+    "/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FT8ISI2Y-if00-port0": DynamixelRobotConfig(
+        joint_ids=(1, 2, 3, 4, 5, 6),
+        joint_offsets=
+        (
+            3*np.pi/2, 
+            2*np.pi/2, 
+            5*np.pi/2, 
+            1*np.pi/2, 
+            2*np.pi/2, 
+            3*np.pi/2,
+        ),
+        joint_signs=(1, 1, -1, 1, 1, 1),
+        # gripper_config=(7, 20, -22),
+        gripper_config=None,
+    ),
+
+
+
+
     # Left UR
     "/dev/serial/by-id/usb-FTDI_USB__-__Serial_Converter_FT7WBEIA-if00-port0": DynamixelRobotConfig(
         joint_ids=(1, 2, 3, 4, 5, 6),

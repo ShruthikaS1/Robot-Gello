@@ -69,7 +69,7 @@ def execute_trajectory(env):
     # print(joint_angles)
     joint_angles = []
     # joint_angles.append([0.0, -1.57, 0.0, -1.57, 0.0, 0.0, 1])
-    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57])
+    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57, 1])
     for angles in joint_angles:
         # Set the joint angles
         time.sleep(0.8)
@@ -80,13 +80,13 @@ def execute_trajectory(env):
 def execute_all_csvs(env, csv_folder):
     for n, csv_file in enumerate(glob.glob(os.path.join(csv_folder, "*.csv"))):
         # Read CSV file
-        dataset = pd.read_csv(csv_file, usecols=range(0, 6), engine="python").astype(np.float64)
+        dataset = pd.read_csv(csv_file, usecols=range(0, 7), engine="python").astype(np.float64)
 
         print(f"Executing CSV File: {n}")
         for i in tqdm(range(0, len(dataset))):
         # for i in range(0, len(dataset)):
             joint_angle = np.array(dataset.iloc[i]) 
-            time.sleep(0.2)
+            time.sleep(0.1)
             obs = env.step(joint_angle)
             # print(obs["ee_pos_quat"])
 
@@ -100,11 +100,11 @@ if __name__ == "__main__":
         # "wrist": ZMQClientCamera(port=args.wrist_camera_port, host=args.hostname),
         # "base": ZMQClientCamera(port=args.base_camera_port, host=args.hostname),
     }
-    csv_folder =  Path(__file__).parent.parent / "csv" / "samestartdiffgoalsp100" / "pose"
+    csv_folder =  Path(__file__).parent.parent / "csv" / "90close"
 
     env = RobotEnv(robot_client, control_rate_hz=Args.hz, camera_dict=camera_clients)
-    execute_trajectory(env)
-    # execute_all_csvs(env, csv_folder)
+    # execute_trajectory(env)
+    execute_all_csvs(env, csv_folder)
 
 
 

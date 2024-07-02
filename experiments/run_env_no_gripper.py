@@ -33,7 +33,7 @@ class Args:
     
     hostname: str = "127.0.0.1" #for_mujoco
     robot_port: int = 6001 #for_mujoco
-    
+
     # hostname: str = "192.168.77.243"
     # robot_port: int = 50003  # for trajectory
     # robot_ip: str = "192.168.77.21" 
@@ -124,7 +124,7 @@ def main(args):
             if args.start_joints is None:
                 reset_joints = np.deg2rad(
                     # [0, -90, 90, -90, -90, 0, 0]
-                    [-90, -90, -90, -90, 90, 90, 0]
+                    [-90, -90, -90, -90, 90, 90]
                 )  # Change this to your own reset joints
             else:
                 reset_joints = args.start_joints
@@ -250,20 +250,20 @@ def main(args):
                 raise ValueError(f"Invalid state {state}")
         obs = env.step(action)
         # Specify the file path
-        csv_file_path = '/home/sj/RLHF-gello_software/csv/output21.csv'      # Writing to CSV file
-        with open(csv_file_path, mode='a', newline='') as file:
-            writer = csv.writer(file)
-            if file.tell() == 0:
-                writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq', 'end_eff_w', 'gripper_pos'])  # Write the header    writer.writerows(data)
-            obs = env.get_obs()["joint_positions"]
+        # csv_file_path = '/home/sj/RLHF-gello_software/csv/output21.csv'      # Writing to CSV file
+        # with open(csv_file_path, mode='a', newline='') as file:
+        #     writer = csv.writer(file)
+        #     if file.tell() == 0:
+        #         writer.writerow(['shoulder_pan_angle', 'shoulder_lift_angle', 'elbow_angle', 'wrist1_angle', 'wrist2_angle', 'wrist3_angle', 'end_eff_x', 'end_eff_y', 'end_eff_z', 'end_eff_xq', 'end_eff_yq', 'end_eff_zq', 'end_eff_w', 'gripper_pos'])  # Write the header    writer.writerows(data)
+        #     obs = env.get_obs()["joint_positions"]
 
-            obs_end_eff = env.get_obs()["ee_pos_quat"]
+        #     obs_end_eff = env.get_obs()["ee_pos_quat"]
 
-            # gripper_pos = env.get_obs()["gripper_position"]
+        #     # gripper_pos = env.get_obs()["gripper_position"]
 
-            obs_combined = np.concatenate((obs, obs_end_eff))
+        #     obs_combined = np.concatenate((obs, obs_end_eff))
 
-            writer.writerow(obs_combined)
+        #     writer.writerow(obs_combined)
 
 
 if __name__ == "__main__":
