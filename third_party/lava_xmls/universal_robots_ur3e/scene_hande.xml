@@ -1,5 +1,12 @@
-<mujoco model="ur5e scene">
+<mujoco model="ur3e_scene">
  <!-- <include file="ur5e.xml"/> -->
+
+
+
+
+
+
+
   <include file="ur3e_hande.xml"/>
   <statistic center="0.3 0 0.4" extent="0.8"/>
 
@@ -7,7 +14,14 @@
     <headlight diffuse="0.6 0.6 0.6" ambient="0.1 0.1 0.1" specular="0 0 0"/>
     <rgba haze="0.15 0.25 0.35 1"/>
     <global azimuth="120" elevation="-20"/>
+    <scale contactwidth="0"/>
   </visual>
+
+
+
+
+
+
 
   <asset>
     <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
@@ -26,10 +40,18 @@
       
   </asset>
 
+
   <worldbody>
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <!-- <body pos="0.1 -0.2 0">
+    <composite type="particle" count="5 1 1" spacing="0.07" offset="0 0 0.5">
+        <geom type="box" size=".025 .025 .025" rgba=".8 .2 .1 1" condim="3"/>
+    </composite>
+    </body> -->
   </worldbody>
+
     <!-- <compiler angle="radian" /> -->
     <!-- <size njmax="500" nconmax="100" /> -->
 
@@ -93,7 +115,5 @@
             <exclude name="exclude_2_body_1" body1="wrist_3_link" body2="wrist_2_link"/>
     </contact>
         -->
-              <!-- <composite type="particle" count="1 1 1" spacing="0.07" offset="0 0 1">
-              <geom type="box" size=".025 .025 .025" rgba=".8 .2 .1 1" condim="3"/>
-          </composite> -->
+
 </mujoco>

@@ -134,10 +134,10 @@
     </actuator>
 
     <!-- <compiler convexhull="false"/> -->
-    <!-- <contact> -->
-            <!-- <exclude name="exclude_1_body_0" body1="shoulder_link" body2="base"/> -->
-            <!-- <exclude name="exclude_2_body_1" body1="wrist_3_link" body2="wrist_2_link"/> -->
-    <!-- </contact> -->
+    <!-- <contact>
+            <exclude name="exclude_1_body_0" body1="shoulder_link" body2="base"/>
+            <exclude name="exclude_2_body_1" body1="wrist_3_link" body2="wrist_2_link"/>
+    </contact> -->
        
 
     <!-- <keyframe>

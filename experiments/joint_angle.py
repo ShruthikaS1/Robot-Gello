@@ -20,6 +20,7 @@ import pandas as pd
 import glob
 import os
 from tqdm import tqdm
+import csv
 
 def print_color(*args, color=None, attrs=(), **kwargs):
     import termcolor
@@ -69,7 +70,7 @@ def execute_trajectory(env):
     # print(joint_angles)
     joint_angles = []
     # joint_angles.append([0.0, -1.57, 0.0, -1.57, 0.0, 0.0, 1])
-    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 1.57, 1])
+    joint_angles.append([-1.57, -1.57, -1.57, -1.57, 1.57, 0, 1])
     for angles in joint_angles:
         # Set the joint angles
         time.sleep(0.8)
@@ -91,7 +92,24 @@ def execute_all_csvs(env, csv_folder):
             # print(obs["ee_pos_quat"])
 
 
+# def extract_ee_pos_quat(env, csv_folder):
+#     for n, csv_file in enumerate(glob.glob(os.path.join(csv_folder, "*.csv"))):
+#         # Read CSV file
+#         dataset = pd.read_csv(csv_file, usecols=range(0, 7), engine="python").astype(np.float64)
 
+#         print(f"Executing CSV File: {n}")
+#         for i in tqdm(range(0, len(dataset))):
+#         # for i in range(0, len(dataset)):
+#             joint_angle = np.array(dataset.iloc[i]) 
+#             time.sleep(0.1)
+#             obs = env.step(joint_angle)
+#             print(obs["ee_pos_quat"])
+#             # write to csv file
+#             with open('ee_pos_quat.csv', 'a') as f:
+#                 writer = csv.writer(f)
+#                 if f.tell() == 0:
+#                     f.write("ee_pos_quat")
+#                 f.write(f"{obs['ee_pos_quat']}\n")
 
 if __name__ == "__main__":
     robot_client = ZMQClientRobot(port=Args.robot_port, host=Args.hostname)

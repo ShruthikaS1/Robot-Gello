@@ -1,107 +1,135 @@
 <mujoco model="unnamed_model">
-  <compiler angle="radian"/>
-  <option integrator="implicitfast"/>
+  <compiler autolimits="true" angle="radian"/>
+  <option impratio="10" integrator="implicitfast" cone="elliptic"/>
   <visual>
     <global azimuth="120" elevation="-20"/>
     <headlight ambient="0.10000000000000001 0.10000000000000001 0.10000000000000001" diffuse="0.59999999999999998 0.59999999999999998 0.59999999999999998" specular="0 0 0"/>
+    <scale contactwidth="0"/>
     <rgba haze="0.14999999999999999 0.25 0.34999999999999998 1"/>
   </visual>
   <statistic extent="0.80000000000000004" center="0.29999999999999999 0 0.40000000000000002"/>
   <default>
     <default class="/"/>
-    <default class="ur5e scene/">
-      <default class="ur5e scene/ur3e">
+    <default class="ur3e_scene/">
+      <default class="ur3e_scene/ur3e">
         <material specular="0.5" shininess="0.25"/>
         <joint axis="0 1 0" range="-6.2831900000000003 6.2831900000000003" armature="0.10000000000000001"/>
         <site group="4" rgba="0.5 0.5 0.5 0.29999999999999999" size="0.001"/>
         <general ctrlrange="-6.2831000000000001 6.2831000000000001" forcerange="-150 150" gaintype="fixed" biastype="affine" gainprm="2000" biasprm="0 -2000 -400"/>
-        <default class="ur5e scene/size3">
-          <default class="ur5e scene/size3_limited">
+        <default class="ur3e_scene/size3">
+          <default class="ur3e_scene/size3_limited">
             <joint range="-3.1415000000000002 3.1415000000000002"/>
             <general ctrlrange="-3.1415000000000002 3.1415000000000002"/>
           </default>
         </default>
-        <default class="ur5e scene/size1">
+        <default class="ur3e_scene/size1">
           <general forcerange="-28 28" gainprm="500" biasprm="0 -500 -100"/>
         </default>
-        <default class="ur5e scene/visual">
+        <default class="ur3e_scene/visual">
           <geom type="mesh" contype="0" conaffinity="0" group="2"/>
         </default>
-        <default class="ur5e scene/collision">
+        <default class="ur3e_scene/collision">
           <geom type="capsule" group="3"/>
-          <default class="ur5e scene/eef_collision">
+          <default class="ur3e_scene/eef_collision">
             <geom type="cylinder"/>
           </default>
         </default>
       </default>
     </default>
+    <default class="ur3e_scene/robotiq_hande/">
+      <default class="ur3e_scene/robotiq_hande/hande">
+        <default class="ur3e_scene/robotiq_hande/hande_right_finger">
+          <joint type="slide" range="0 0.025000000000000001" actuatorfrcrange="-100 100"/>
+        </default>
+        <default class="ur3e_scene/robotiq_hande/hande_left_finger">
+          <joint type="slide" range="0 0.025000000000000001" actuatorfrcrange="-100 100"/>
+        </default>
+      </default>
+    </default>
   </default>
   <asset>
-    <texture name="ur5e scene//unnamed_texture_0" type="skybox" builtin="gradient" rgb1="0.29999999999999999 0.5 0.69999999999999996" rgb2="0 0 0" width="512" height="3072"/>
-    <texture name="ur5e scene/groundplane" type="2d" builtin="checker" rgb1="0.20000000000000001 0.29999999999999999 0.40000000000000002" rgb2="0.10000000000000001 0.20000000000000001 0.29999999999999999" mark="edge" markrgb="0.80000000000000004 0.80000000000000004 0.80000000000000004" width="300" height="300"/>
-    <material name="ur5e scene/groundplane" class="ur5e scene/" texture="ur5e scene/groundplane" texrepeat="5 5" texuniform="true" reflectance="0.20000000000000001"/>
-    <material name="ur5e scene/black" class="ur5e scene/ur3e" rgba="0.033000000000000002 0.033000000000000002 0.033000000000000002 1"/>
-    <material name="ur5e scene/jointgray" class="ur5e scene/ur3e" rgba="0.27800000000000002 0.27800000000000002 0.27800000000000002 1"/>
-    <material name="ur5e scene/linkgray" class="ur5e scene/ur3e" rgba="0.81999999999999995 0.81999999999999995 0.81999999999999995 1"/>
-    <material name="ur5e scene/urblue" class="ur5e scene/ur3e" rgba="0.48999999999999999 0.67800000000000005 0.90000000000000002 0.29999999999999999"/>
-    <mesh name="ur5e scene/base" class="ur5e scene/" file="base-ab9308245b7df19ed44aa05b6195e4b2e1104f74.stl"/>
-    <mesh name="ur5e scene/shoulder" class="ur5e scene/" file="shoulder-0612c53192fece4be788e7ab0542d86c7b42d0af.stl"/>
-    <mesh name="ur5e scene/upperarm" class="ur5e scene/" file="upperarm-b391922ebb19e971c5b09e5dd75848c1fe9ad6c4.stl"/>
-    <mesh name="ur5e scene/forearm" class="ur5e scene/" file="forearm-0d49741c4eb0b0de631955e39f91822186b91ab3.stl"/>
-    <mesh name="ur5e scene/wrist1" class="ur5e scene/" file="wrist1-b2f310cb5223933da74be20fbe9bb340129f068c.stl"/>
-    <mesh name="ur5e scene/wrist2" class="ur5e scene/" file="wrist2-f472fa8366b2ae2aefe27995b634150b74a10f31.stl"/>
-    <mesh name="ur5e scene/wrist3" class="ur5e scene/" file="wrist3-a06cb2cf9cb97f23d5a2348cc579ab9de9fa680b.stl"/>
-    <mesh name="ur5e scene/cameraholder" class="ur5e scene/" file="cameraholder-2238f1b3ee6d897ba358d06f4f0589688367dc26.stl" scale="0.0001 0.0001 0.0001"/>
-    <mesh name="ur5e scene/simple_spoon" class="ur5e scene/" file="simple_spoon-ed2261fff37c741aa31eb52905715e4bfcdbabd6.stl" scale="0.0011999999999999999 0.0011999999999999999 0.0011999999999999999"/>
+    <texture name="ur3e_scene//unnamed_texture_0" type="skybox" builtin="gradient" rgb1="0.29999999999999999 0.5 0.69999999999999996" rgb2="0 0 0" width="512" height="3072"/>
+    <texture name="ur3e_scene/groundplane" type="2d" builtin="checker" rgb1="0.20000000000000001 0.29999999999999999 0.40000000000000002" rgb2="0.10000000000000001 0.20000000000000001 0.29999999999999999" mark="edge" markrgb="0.80000000000000004 0.80000000000000004 0.80000000000000004" width="300" height="300"/>
+    <material name="ur3e_scene/groundplane" class="ur3e_scene/" texture="ur3e_scene/groundplane" texrepeat="5 5" texuniform="true" reflectance="0.20000000000000001"/>
+    <material name="ur3e_scene/black" class="ur3e_scene/ur3e" rgba="0.033000000000000002 0.033000000000000002 0.033000000000000002 1"/>
+    <material name="ur3e_scene/jointgray" class="ur3e_scene/ur3e" rgba="0.27800000000000002 0.27800000000000002 0.27800000000000002 1"/>
+    <material name="ur3e_scene/linkgray" class="ur3e_scene/ur3e" rgba="0.81999999999999995 0.81999999999999995 0.81999999999999995 1"/>
+    <material name="ur3e_scene/urblue" class="ur3e_scene/ur3e" rgba="0.48999999999999999 0.67800000000000005 0.90000000000000002 0.29999999999999999"/>
+    <mesh name="ur3e_scene/base" class="ur3e_scene/" file="base-ab9308245b7df19ed44aa05b6195e4b2e1104f74.stl"/>
+    <mesh name="ur3e_scene/shoulder" class="ur3e_scene/" file="shoulder-0612c53192fece4be788e7ab0542d86c7b42d0af.stl"/>
+    <mesh name="ur3e_scene/upperarm" class="ur3e_scene/" file="upperarm-b391922ebb19e971c5b09e5dd75848c1fe9ad6c4.stl"/>
+    <mesh name="ur3e_scene/forearm" class="ur3e_scene/" file="forearm-0d49741c4eb0b0de631955e39f91822186b91ab3.stl"/>
+    <mesh name="ur3e_scene/wrist1" class="ur3e_scene/" file="wrist1-b2f310cb5223933da74be20fbe9bb340129f068c.stl"/>
+    <mesh name="ur3e_scene/wrist2" class="ur3e_scene/" file="wrist2-f472fa8366b2ae2aefe27995b634150b74a10f31.stl"/>
+    <mesh name="ur3e_scene/wrist3" class="ur3e_scene/" file="wrist3-a06cb2cf9cb97f23d5a2348cc579ab9de9fa680b.stl"/>
+    <mesh name="ur3e_scene/cameraholder" class="ur3e_scene/" file="cameraholder-2238f1b3ee6d897ba358d06f4f0589688367dc26.stl" scale="0.0001 0.0001 0.0001"/>
+    <mesh name="ur3e_scene/simple_spoon" class="ur3e_scene/" file="simple_spoon-ed2261fff37c741aa31eb52905715e4bfcdbabd6.stl" scale="0.0011999999999999999 0.0011999999999999999 0.0011999999999999999"/>
+    <mesh name="ur3e_scene/robotiq_hande/hande" class="ur3e_scene/robotiq_hande/" file="hande-1add33de79f290e7a3cf5e6d7232c5abc5ab2175.stl"/>
+    <mesh name="ur3e_scene/robotiq_hande/coupler" class="ur3e_scene/robotiq_hande/" file="coupler-5d68f53479c6a94cfcd4f39db0a25a4168863a64.stl"/>
+    <mesh name="ur3e_scene/robotiq_hande/right_finger" class="ur3e_scene/robotiq_hande/" file="finger_1-889bec3dd36898b042074897643782a92a7b9a48.stl"/>
+    <mesh name="ur3e_scene/robotiq_hande/left_finger" class="ur3e_scene/robotiq_hande/" file="finger_2-2918ee85e43a49c3b03448c73d41f875a48b0a94.stl"/>
   </asset>
   <worldbody>
-    <body name="ur5e scene/">
-      <light name="ur5e scene//unnamed_light_0" class="ur5e scene/" directional="true" pos="0 0 1.5" dir="0 0 -1"/>
-      <geom name="ur5e scene/floor" class="ur5e scene/" type="plane" size="0 0 0.050000000000000003" material="ur5e scene/groundplane"/>
-      <light name="ur5e scene/spotlight" class="ur5e scene/" mode="targetbodycom" target="ur5e scene/wrist_2_link" pos="0 -1 2"/>
-      <body name="ur5e scene/base" childclass="ur5e scene/ur3e" pos="0 0 0" quat="1 0 0 1">
+    <body name="ur3e_scene/">
+      <light name="ur3e_scene//unnamed_light_0" class="ur3e_scene/" directional="true" pos="0 0 1.5" dir="0 0 -1"/>
+      <geom name="ur3e_scene/floor" class="ur3e_scene/" type="plane" size="0 0 0.050000000000000003" material="ur3e_scene/groundplane"/>
+      <body name="ur3e_scene//unnamed_body_0" pos="0.10000000000000001 -0.20000000000000001 0">
+        <composite prefix="ur3e_scene//unnamed_composite_0" type="particle" count="5 1 1" spacing="0.070000000000000007" offset="0 0 0.5">
+          <geom type="box" condim="3" size="0.025000000000000001 0.025000000000000001 0.025000000000000001" rgba="0.80000000000000004 0.20000000000000001 0.10000000000000001 1"/>
+        </composite>
+      </body>
+      <light name="ur3e_scene/spotlight" class="ur3e_scene/" mode="targetbodycom" target="ur3e_scene/wrist_2_link" pos="0 -1 2"/>
+      <body name="ur3e_scene/base" childclass="ur3e_scene/ur3e" pos="0 0 0" quat="1 0 0 1">
         <inertial pos="0 0 0" mass="2" diaginertia="0.0044333315599999999 0.0044333315599999999 0.0071999999999999998"/>
-        <geom name="ur5e scene//unnamed_geom_1" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/base"/>
-        <geom name="ur5e scene//unnamed_geom_2" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/base"/>
-        <body name="ur5e scene/shoulder_link" pos="0 0 0.152">
+        <geom name="ur3e_scene//unnamed_geom_1" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/base"/>
+        <geom name="ur3e_scene//unnamed_geom_2" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/base"/>
+        <body name="ur3e_scene/shoulder_link" pos="0 0 0.152">
           <inertial pos="0 0 0" mass="2" diaginertia="0.0080931600000000003 0.0080931600000000003 0.0056249999999999998"/>
-          <joint name="ur5e scene/shoulder_pan_joint" pos="0 0 0" axis="0 0 1" range="-3.1415899999999999 3.1415899999999999"/>
-          <geom name="ur5e scene//unnamed_geom_3" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/shoulder"/>
-          <geom name="ur5e scene//unnamed_geom_4" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/shoulder"/>
-          <body name="ur5e scene/upper_arm_link" pos="0 0.12 0" quat="0.70710700000000004 0 0.70710700000000004 0">
+          <joint name="ur3e_scene/shoulder_pan_joint" pos="0 0 0" axis="0 0 1" range="-3.1415899999999999 3.1415899999999999"/>
+          <geom name="ur3e_scene//unnamed_geom_3" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/shoulder"/>
+          <geom name="ur3e_scene//unnamed_geom_4" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/shoulder"/>
+          <body name="ur3e_scene/upper_arm_link" pos="0 0.12 0" quat="0.70710700000000004 0 0.70710700000000004 0">
             <inertial pos="0 0 0.122" mass="1.71" diaginertia="0.021777100000000001 0.021777100000000001 0.0096187500000000006"/>
-            <joint name="ur5e scene/shoulder_lift_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
-            <geom name="ur5e scene//unnamed_geom_5" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/upperarm"/>
-            <geom name="ur5e scene//unnamed_geom_6" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/upperarm"/>
-            <body name="ur5e scene/forearm_link" pos="0 -0.092999999999999999 0.24399999999999999">
+            <joint name="ur3e_scene/shoulder_lift_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
+            <geom name="ur3e_scene//unnamed_geom_5" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/upperarm"/>
+            <geom name="ur3e_scene//unnamed_geom_6" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/upperarm"/>
+            <body name="ur3e_scene/forearm_link" pos="0 -0.092999999999999999 0.24399999999999999">
               <inertial pos="0 0 0.1065" mass="0.63" diaginertia="0.0065356199999999998 0.0065356199999999998 0.00354375"/>
-              <joint name="ur5e scene/elbow_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
-              <geom name="ur5e scene//unnamed_geom_7" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/forearm"/>
-              <geom name="ur5e scene//unnamed_geom_8" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/forearm"/>
-              <body name="ur5e scene/wrist_1_link" pos="0 0 0.21299999999999999" quat="0.70710700000000004 0 0.70710700000000004 0">
+              <joint name="ur3e_scene/elbow_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
+              <geom name="ur3e_scene//unnamed_geom_7" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/forearm"/>
+              <geom name="ur3e_scene//unnamed_geom_8" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/forearm"/>
+              <body name="ur3e_scene/wrist_1_link" pos="0 0 0.21299999999999999" quat="0.70710700000000004 0 0.70710700000000004 0">
                 <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.40000000000000002" diaginertia="0.0022499999999999998 0.002085 0.002085"/>
-                <joint name="ur5e scene/wrist_1_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
-                <geom name="ur5e scene//unnamed_geom_9" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/wrist1"/>
-                <geom name="ur5e scene//unnamed_geom_10" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/wrist1"/>
-                <body name="ur5e scene/wrist_2_link" pos="0 0.104 0">
+                <joint name="ur3e_scene/wrist_1_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
+                <geom name="ur3e_scene//unnamed_geom_9" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/wrist1"/>
+                <geom name="ur3e_scene//unnamed_geom_10" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/wrist1"/>
+                <body name="ur3e_scene/wrist_2_link" pos="0 0.104 0">
                   <inertial pos="0 0 0" quat="0.5 0.5 -0.5 0.5" mass="0.40000000000000002" diaginertia="0.0022499999999999998 0.002085 0.002085"/>
-                  <joint name="ur5e scene/wrist_2_joint" pos="0 0 0" axis="0 0 1" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
-                  <geom name="ur5e scene//unnamed_geom_11" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/wrist2"/>
-                  <geom name="ur5e scene//unnamed_geom_12" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/wrist2"/>
-                  <body name="ur5e scene/wrist_3_link" pos="0 0 0.085000000000000006">
+                  <joint name="ur3e_scene/wrist_2_joint" pos="0 0 0" axis="0 0 1" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
+                  <geom name="ur3e_scene//unnamed_geom_11" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/wrist2"/>
+                  <geom name="ur3e_scene//unnamed_geom_12" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/wrist2"/>
+                  <body name="ur3e_scene/wrist_3_link" pos="0 0 0.085000000000000006">
                     <inertial pos="0 0.000233618 0" quat="0.5 0.5 -0.5 0.5" mass="0.17050000000000001" diaginertia="0.00099109700000000003 0.00091890899999999998 0.00091220400000000001"/>
-                    <joint name="ur5e scene/wrist_3_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
-                    <geom name="ur5e scene//unnamed_geom_13" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/wrist3"/>
-                    <geom name="ur5e scene//unnamed_geom_14" class="ur5e scene/visual" material="ur5e scene/urblue" mesh="ur5e scene/wrist3"/>
-                    <body name="ur5e scene/camera_holder" pos="0 0.10000000000000001 0" euler="0 0 0">
-                      <geom name="ur5e scene//unnamed_geom_15" type="mesh" rgba="0.10000000000000001 0.29999999999999999 0.29999999999999999 1" mesh="ur5e scene/cameraholder"/>
-                      <geom name="ur5e scene//unnamed_geom_16" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/cameraholder"/>
-                      <inertial pos="0 0 0.16" euler="1.5700000000000001 1.5700000000000001 0" mass="0.050000000000000003" diaginertia="0.01 0.01 0.01"/>
-                      <body name="ur5e scene/simple_spoon" pos="0 0.16 0" euler="0 0 0">
-                        <geom name="ur5e scene//unnamed_geom_17" type="mesh" rgba="0.10000000000000001 0.29999999999999999 0.29999999999999999 1" mesh="ur5e scene/simple_spoon"/>
-                        <geom name="ur5e scene//unnamed_geom_18" type="mesh" contype="1" conaffinity="0" mesh="ur5e scene/simple_spoon"/>
-                        <inertial pos="0 0 0.16" euler="1.5700000000000001 1.5700000000000001 0" mass="0.050000000000000003" diaginertia="0.01 0.01 0.01"/>
-                        <site name="ur5e scene/attachment_site" pos="0 0.10000000000000001 0" quat="-1 1 0 0"/>
+                    <joint name="ur3e_scene/wrist_3_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.1415899999999999 3.1415899999999999"/>
+                    <geom name="ur3e_scene//unnamed_geom_13" type="mesh" contype="1" conaffinity="0" mesh="ur3e_scene/wrist3"/>
+                    <geom name="ur3e_scene//unnamed_geom_14" class="ur3e_scene/visual" material="ur3e_scene/urblue" mesh="ur3e_scene/wrist3"/>
+                    <site name="ur3e_scene/attachment_site" pos="0 0.10000000000000001 0" quat="-1 1 0 0"/>
+                    <body pos="0 0.10000000000000001 0" quat="-1 1 0 0" name="ur3e_scene/robotiq_hande/">
+                      <light name="ur3e_scene/robotiq_hande//unnamed_light_0" class="ur3e_scene/robotiq_hande/" directional="true" pos="0 0 1.5" dir="0 0 -1"/>
+                      <body name="ur3e_scene/robotiq_hande/hande">
+                        <geom name="ur3e_scene/robotiq_hande/hande_coupler" class="ur3e_scene/robotiq_hande/" type="mesh" conaffinity="0" group="1" rgba="0.10000000000000001 0.10000000000000001 0.10000000000000001 1" mesh="ur3e_scene/robotiq_hande/coupler"/>
+                        <geom name="ur3e_scene/robotiq_hande/hande_base" class="ur3e_scene/robotiq_hande/" type="mesh" conaffinity="0" group="1" rgba="0.10000000000000001 0.10000000000000001 0.10000000000000001 1" mesh="ur3e_scene/robotiq_hande/hande"/>
+                        <site name="ur3e_scene/robotiq_hande/tcp" class="ur3e_scene/robotiq_hande/" rgba="0 0 0 0.10000000000000001" size="0.001" pos="0 0 0.13500000000000001"/>
+                        <body name="ur3e_scene/robotiq_hande/hande_left_finger" pos="0 0 0.099000000000000005">
+                          <inertial pos="0.022620000000000001 -0.0075900000000000004 0.0073800000000000003" quat="0.87195199999999995 0.036973199999999998 -0.21107300000000001 0.44020500000000001" mass="0.038039999999999997" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
+                          <joint name="ur3e_scene/robotiq_hande/hande_left_finger_joint" class="ur3e_scene/robotiq_hande/hande_left_finger" pos="0 0 0" axis="1 0 0"/>
+                          <geom name="ur3e_scene/robotiq_hande//unnamed_geom_2" class="ur3e_scene/robotiq_hande/" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.40000000000000002 0.40000000000000002 0.40000000000000002 1" mesh="ur3e_scene/robotiq_hande/left_finger"/>
+                        </body>
+                        <body name="ur3e_scene/robotiq_hande/hande_right_finger" pos="0 0 0.099000000000000005">
+                          <inertial pos="-0.022620000000000001 0.0075900000000000004 0.0073800000000000003" quat="0.87195199999999995 -0.036973199999999998 0.21107300000000001 0.44020500000000001" mass="0.038039999999999997" diaginertia="1.22763e-05 1.22763e-05 1.22763e-05"/>
+                          <joint name="ur3e_scene/robotiq_hande/hande_right_finger_joint" class="ur3e_scene/robotiq_hande/hande_right_finger" pos="0 0 0" axis="-1 0 0"/>
+                          <geom name="ur3e_scene/robotiq_hande//unnamed_geom_3" class="ur3e_scene/robotiq_hande/" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.40000000000000002 0.40000000000000002 0.40000000000000002 1" mesh="ur3e_scene/robotiq_hande/right_finger"/>
+                        </body>
                       </body>
                     </body>
                   </body>
@@ -113,12 +141,26 @@
       </body>
     </body>
   </worldbody>
+  <contact>
+    <exclude name="ur3e_scene/robotiq_hande//unnamed_contact_0" body1="ur3e_scene/robotiq_hande/hande" body2="ur3e_scene/robotiq_hande/hande_left_finger"/>
+    <exclude name="ur3e_scene/robotiq_hande//unnamed_contact_1" body1="ur3e_scene/robotiq_hande/hande" body2="ur3e_scene/robotiq_hande/hande_right_finger"/>
+  </contact>
+  <equality>
+    <joint name="ur3e_scene/robotiq_hande//unnamed_equality_0" class="ur3e_scene/robotiq_hande/" joint1="ur3e_scene/robotiq_hande/hande_left_finger_joint" joint2="ur3e_scene/robotiq_hande/hande_right_finger_joint" polycoef="0 1 0 0 0"/>
+  </equality>
+  <tendon>
+    <fixed name="ur3e_scene/robotiq_hande/split" class="ur3e_scene/robotiq_hande/">
+      <joint joint="ur3e_scene/robotiq_hande/hande_left_finger_joint" coef="0.5"/>
+      <joint joint="ur3e_scene/robotiq_hande/hande_right_finger_joint" coef="0.5"/>
+    </fixed>
+  </tendon>
   <actuator>
-    <general name="ur5e scene/shoulder_pan" class="ur5e scene/size3" joint="ur5e scene/shoulder_pan_joint"/>
-    <general name="ur5e scene/shoulder_lift" class="ur5e scene/size3" joint="ur5e scene/shoulder_lift_joint"/>
-    <general name="ur5e scene/elbow" class="ur5e scene/size3_limited" joint="ur5e scene/elbow_joint"/>
-    <general name="ur5e scene/wrist_1" class="ur5e scene/size1" joint="ur5e scene/wrist_1_joint"/>
-    <general name="ur5e scene/wrist_2" class="ur5e scene/size1" joint="ur5e scene/wrist_2_joint"/>
-    <general name="ur5e scene/wrist_3" class="ur5e scene/size1" joint="ur5e scene/wrist_3_joint"/>
+    <general name="ur3e_scene/shoulder_pan" class="ur3e_scene/size3" joint="ur3e_scene/shoulder_pan_joint"/>
+    <general name="ur3e_scene/shoulder_lift" class="ur3e_scene/size3" joint="ur3e_scene/shoulder_lift_joint"/>
+    <general name="ur3e_scene/elbow" class="ur3e_scene/size3_limited" joint="ur3e_scene/elbow_joint"/>
+    <general name="ur3e_scene/wrist_1" class="ur3e_scene/size1" joint="ur3e_scene/wrist_1_joint"/>
+    <general name="ur3e_scene/wrist_2" class="ur3e_scene/size1" joint="ur3e_scene/wrist_2_joint"/>
+    <general name="ur3e_scene/wrist_3" class="ur3e_scene/size1" joint="ur3e_scene/wrist_3_joint"/>
+    <general name="ur3e_scene/robotiq_hande/hande_fingers_actuator" class="ur3e_scene/robotiq_hande/hande" ctrlrange="0 255" forcerange="-200 200" tendon="ur3e_scene/robotiq_hande/split" gaintype="affine" biastype="affine" gainprm="0.0098039200000000007" biasprm="0 -100 -10"/>
   </actuator>
 </mujoco>

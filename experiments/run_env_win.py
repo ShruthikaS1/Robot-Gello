@@ -112,15 +112,15 @@ def main(args):
         if args.agent == "gello":
             gello_port = args.gello_port
             if gello_port is None:
-                usb_ports = glob.glob("/dev/serial/by-id/*")
-                print(f"Found {len(usb_ports)} ports")
-                if len(usb_ports) > 0:
-                    gello_port = usb_ports[0]
-                    print(f"using port {gello_port}")
-                else:
-                    raise ValueError(
-                        "No gello port found, please specify one or plug in gello"
-                    )
+                # usb_ports = glob.glob("/dev/serial/by-id/*")
+                # print(f"Found {len(usb_ports)} ports")
+                # if len(usb_ports) > 0:
+                gello_port = "COM7"
+                print(f"using port {gello_port}")
+                # else:
+                #     raise ValueError(
+                #         "No gello port found, please specify one or plug in gello"
+                #     )
             if args.start_joints is None:
                 reset_joints = np.deg2rad(
                     # [0, -90, 90, -90, -90, 0, 0]
